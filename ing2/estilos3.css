@@ -1,0 +1,214 @@
+.navbar{
+	background-color:#ff4d4d !IMPORTANT ; 
+
+}
+
+.container{/* la tabla*/
+  padding:50px 10px 10px 10px !IMPORTANT;
+
+}
+
+.nav-link {/* Color del dropdown*/
+      color: black !IMPORTANT;
+}
+
+.form-row{/*el buscador   */ 
+
+	padding:80px 10px 10px 210px !IMPORTANT;
+}
+
+.btn{/* color del buscar */
+
+	background-color:#ff4d4d;
+	border-color: #ff4d4d;
+
+
+}
+.btn-primary:hover{
+  background-color: #ff4d4d;
+}
+ 
+th{/*color de la tabla*/
+  background-color: #ff4d4d !IMPORTANT;
+  border-color: #ff4d4d !IMPORTANT;
+
+}
+
+.page-link{
+  color: black !IMPORTANT;
+
+}
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.regV{/* form de reg vehiculo*/
+  margin-top: 50px;
+  margin-left: 200px;
+  margin-right: 200px;
+ 
+}
+
+.LabelRegVeh{/* Titulo de el form del reg vehi*/
+ 
+ margin-top:20px;
+ margin-left: 10px;
+
+}
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #ff4d4d;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab a {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab a:hover {
+    background-color: #ff4d4d;
+}
+
+/* Create an active/current tablink class */
+.tab a.active {
+    background-color: #ff4d4d;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+/* Estilos de fer
+
+
+
+.panel1{
+    display:block;
+    position: relative;
+    width: 900px;
+    height: 500px;
+    background-color: white;
+    top: 310px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    border-style: groove;
+}
+
+.panel2{
+    display:block;
+    position: relative;
+    width: 900px;
+    height: 75px;
+    background-color: darkgrey;
+    top: -410px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    border-style: groove;
+}
+
+#nombre{
+    position: absolute;
+    top: 165%;
+    left: 50.5%;
+    line-height: 1.0;
+    font-size: 20px;
+    font-family: serif;
+}
+
+#apellido{
+    position: absolute;
+    top: 265%;
+    left: 50%;
+    line-height: 1.0;
+    font-size: 20px;
+    font-family: serif;
+}
+
+#correo{
+    position: absolute;
+    top: 365%;
+    left: 41.2%;
+    line-height: 1.0;
+    font-size: 20px;
+    font-family: serif;
+}
+
+#nacimiento{
+    position: absolute;
+    top: 465%;
+    left: 39.4%;
+    line-height: 1.0;
+    font-size: 20px;
+    font-family: serif;
+}
+
+#logo{
+    width: 75px;
+    height: 65px;
+}
+
+#fotoperfil{
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    top: 154%;
+    left: 5%;
+}
+
+#boton_volver{
+    position: absolute;
+    width: 150px;
+    top: 620%;
+    left: 82%;    
+    color: black;
+    line-height: 1.0;
+    font-size: 20px;
+    font-family: serif;
+    border-style: groove;
+}
+
+.center {
+    display: block;
+    margin-top: 1.5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+.modificarperfil{
+    display: block;
+    position: absolute;
+    width: 100%;
+    top: 525%;
+    left: 8%;
+    color: black;
+    line-height: 1.0;
+    font-size: 20px;
+    font-family: serif;
+}
+
+#boton1{
+    display:block;
+    width: 22%;
+}
+
+*/
+

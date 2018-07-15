@@ -1,0 +1,153 @@
+body{
+	background-image:url("Fondonuevo");
+}
+
+a:link{color:default;
+}
+
+a:visited{color:default;	
+}
+
+
+#foto{
+	width:10px;
+	height:10px; 
+}
+
+header{
+	background-image: url("logoletras2.jpg");
+
+	background-position:100%;
+	background-repeat: repeat;
+}
+
+
+
+#menu{	
+	margin-top: 25px;
+	margin-right: 10px;	
+	float:right;
+	font-family: "helvetica";
+
+}
+
+#categoria{
+	color: white;
+	font-size: 18px;
+	margin-bottom: 10px;
+	float:right;	
+	font-family: "helvetica";
+	margin-right: 1%;
+}
+
+#logo{
+	float:left;
+	margin: 0px;
+    border: 0px solid navy;
+    padding: 25px;
+    height: 170px;
+    width: 400px;
+}
+#intro{
+	 
+	 margin-top: 1%; 
+	 margin-left:37% ;
+	 font-size: 40px;
+	 font-family: "bauhaus 93";
+	 letter-spacing: 2px;
+}
+#tabla  {
+
+   
+	margin-top: 00px;
+	margin-left: 21%;
+	border:3px solid black;
+	border-collapse: collapse;
+	height:100px;
+	width:100px;
+	box-shadow: 5px 5px 10px #999;
+}
+
+#paginas{
+  float:bottom;
+  font-size:40px;
+  font-family: "bauhaus 93"; 
+  margin-left:700px;
+  margin-top: 50px;
+
+}
+
+th{
+	border-collapse: collapse;
+	border:2px solid black;
+	height: 200%;
+	width: 500px;
+    padding: 10px;
+    text-align: center;
+    color:;
+    font-family:"helvetica";
+    font-size: 20px; 
+}
+
+td{
+	border-collapse: collapse;
+	border:2px solid black;
+	height: 200%;
+	width: 50px;
+    padding: 00px;
+    text-align: center;
+    font-family: "helvetica";
+}
+
+tr:hover{
+	background-color: rgb(255,252,252);
+}
+
+h1{
+	 margin-top: 1%; 
+	 margin-left:36% ;
+	 font-size: 50px;
+	 font-family: "bauhaus 93";
+	 letter-spacing: 2px;
+	 color:rgb(208,23,1);
+}
+
+#intro2{
+	 margin-top: 1%; 
+	 margin-left:32% ;
+	 font-size: 40px;
+	 font-family: "bauhaus 93";
+	 letter-spacing: 2px;
+}
+
+#costado{
+	font-size: 20px;
+	background-image:url('fondocostadook.jpg');
+	width:208px;
+	float:left;
+	height:100%;
+	color:black; 
+	font-family: "helvetica";
+}
+
+#filtrarnom{
+	color: white;
+	font-size: 18px;
+	margin-bottom: 10px;
+	float:left;	
+	font-family: "helvetica";
+	margin-left: 1%;
+}
+
+#inicios{
+	float:center;
+	margin-right: 40%;
+	box-shadow: 5px 5px 10px #999;
+}
+
+#categoriabaja{
+	color:black;
+	font-size: 30px;
+}
+
+}

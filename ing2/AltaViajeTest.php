@@ -1,0 +1,153 @@
+<?php
+ session_start();
+ include ("conexion.php");
+
+ function validarOrigen($origen){
+  $origenNue= trim($origen);
+  if($origenNue == null||$origenNue == "" ){
+    echo "Campo de origen vacio";
+    echo  "<a href='publicarViaje.php'> Volver a intentar </a>";
+    return false;
+  }
+  return true;
+ }
+
+  function validarDestino($destino){
+   $destino= trim($destino);
+   if($destino == null||$destino == "" ){
+     echo "Campo de destino vacio";
+     echo  "<a href='publicarViaje.php'> Volver a intentar </a>";
+     return false;
+   }
+   return true;
+  }
+
+function validarFecha($fecha){
+  $fecha= trim($fecha);
+  if($fecha == null||$fecha == "" ){
+    $_SESSION['fechaOk'] =true;
+    header("Location:publicarViaje.php"); 
+    return false;
+  }
+  else{
+    $hoy= date("Y-m-d");
+    if($hoy>$fecha){
+      $_SESSION['fechaMayOk'] =true;
+      header("Location:publicarViaje.php");
+      return false;    
+    }
+
+  }
+  return true;
+ } 
+
+ function validarHora($hora){
+    $hora= trim($hora);
+    if($hora == null||$hora == "" ){
+      $_SESSION['horaOk'] =true;
+      echo  "<a href='publicarViaje.php'> Volver a intentar </a>";
+      return false;
+    }
+    return true;
+ }
+function validarPrecio($precio){
+    $precio= trim($precio);
+    if($precio == null||$precio == "" ){
+      echo "Campo de precio vacio";
+      echo  "<a href='publicarViaje.php'> Volver a intentar </a>";
+      return false;
+    }
+    return true;
+}
+
+if(!empty($_POST['fecha1'])){
+  $f1=$_POST['fecha1'];
+}
+if(!empty($_POST['fecha2'])){
+  $f2=$_POST['fecha2'];
+
+}
+
+if(!empty($_POST['fecha3'])){
+  $f3=$_POST['fecha3'];
+}
+
+if(!empty($_POST['hora1'])){
+  $h1=$_POST['hora1'];  
+}
+if(!empty($_POST['hora2'])){
+  $h2=$_POST['hora2'];
+}
+if(!empty($_POST['hora3'])){ 
+  $h3=$_POST['hora3'];
+}
+
+
+if(!empty($_POST['horaLLegada1'])){ 
+  $hll1=$_POST['horaLLegada1'];
+}
+if(!empty($_POST['horaLLegada2'])){ 
+  $hll2=$_POST['horaLLegada2'];
+}
+if(!empty($_POST['horaLLegada3'])){ 
+  $hll3=$_POST['horaLLegada3'];
+}
+
+
+
+if(!empty($f1)){
+  $fecha=$f1;
+  $hora=$h1;
+  $horaLlegada=$hll1;
+} 
+else{
+  if(!empty($f2)){
+    $fecha=$f2;
+    $hora=$h2;
+    $cS=$_POST['cantSemanas'];
+    $horaLlegada=$hll2;
+  }
+  else{
+    $fecha=$f3;
+    $hora=$h3;
+    $cDias=$_POST['cantDias'];
+    $horaLlegada=$hll3;
+  }
+}
+
+
+ if($conexion){
+   $resultado12=false;
+   if(isset($_POST['origen']) && isset($_POST['destino']) && isset($_POST['precio']) ){
+     $origen = $_POST['origen']; 
+     if(validarOrigen($origen)){
+       $destino = $_POST['destino'];
+       if(validarDestino($destino)){
+         if(validarFecha($fecha)){
+           if(validarHora($hora)){
+             $precio=$_POST['precio'];
+             if(validarPrecio($precio)){
+               $id_auto=$_POST['vehiculo'];
+               if(isset($id_auto)){
+                 $nomemail=$_SESSION['email'];
+                 
+                 $cant_sem=0;
+                 if($fecha == $f1){
+                   $query="SELECT * FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto' AND hora BETWEEN '$hora' AND '$horaLlegada'";
+                   $resultquery=mysqli_query($conexion,$query);
+                   $registro=mysqli_fetch_row($resultquery);
+                   echo var_dump($registro['0']);
+                             
+   }
+             }
+           }
+     
+         }
+       }  
+     }
+   
+   }       
+ }
+}
+ ?>
+

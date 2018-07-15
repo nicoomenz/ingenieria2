@@ -1,0 +1,105 @@
+.navbar{
+	background-color:#ff4d4d !IMPORTANT ; 
+
+}
+
+.container{/* la tabla*/
+  padding:50px 10px 10px 10px !IMPORTANT;
+
+
+
+}
+.nav-link {/* Color del dropdown*/
+      color: black !IMPORTANT;
+}
+.form-row{/*el buscador   */ 
+
+	padding:80px 10px 10px 210px !IMPORTANT;
+}
+
+.btn{/* color del buscar */
+  
+	background-color:#ff4d4d;
+	border-color: #ff4d4d;
+
+
+}
+.btn-primary:hover{/* Color del boton*/
+  background-color: #ff4d4d;
+}
+ 
+th{/*color de la tabla*/
+  background-color: #ff4d4d !IMPORTANT;
+  border-color: #ff4d4d !IMPORTANT;
+
+}
+
+.page-link{
+  color: black !IMPORTANT;
+
+}
+.avatar {/*  Fotito del aventon*/
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.misAutos{
+  margin-top: 80px;
+  margin-left: 200px;
+
+}
+.container3{
+
+    padding: 10px 200px 200px 200px;
+}
+.noPoseeVeh{
+  margin-left: 500px;
+  margin-top: 200px;
+  margin-right: 400px;
+  margin-bottom: 200px;
+
+}
+
+/*boton deshabilitado*/
+.btn-primary.disabled, .btn-primary:disabled { 
+    color: #fff;
+    background-color:#ff4d4d;
+    border-color: #ff4d4d;
+}
+
+/*Calificacion*/
+
+.stars-outer {
+  position: relative;
+  display: inline-block;
+}
+
+.stars-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+}
+
+.stars-outer::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: #ccc;
+}
+
+.stars-inner::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: #f8ce0b;
+}
+
+.sony{
+    text-align: center;
+}
+

@@ -1,0 +1,144 @@
+.contenido{
+    width: 300px;
+    height: 520px;
+    margin-top: 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table{
+    border-radius: 50%;
+    border-color: black;
+}
+
+th{/*color de la tabla*/
+  background-color: #ff4d4d !IMPORTANT;
+  border-color: #ff4d4d !IMPORTANT;
+  
+}
+
+td{/*contenido de la tabla */
+    text-align: center;
+}
+
+
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.avatarPerfil {
+    vertical-align: middle;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    border-style: double;
+    margin-left: 70px;
+}
+
+p{
+    margin-left: 50px;
+}
+
+#boton1{
+    display:block;
+    width: 100%;
+}
+
+#boton2{
+    display:block;
+    width: 100%;
+}
+
+label{
+    display:block!important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #f17376;
+    border-color: #212529;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #bd2130;
+  border-color: #bd2130;
+}
+
+.form-control {
+    border: 0;
+    padding: 0;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #212529;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.29);
+}
+
+.btn-primary:focus, .btn-primary.focus {
+ box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.29)!important;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #bd2130;
+  border-color: #bd2130;
+}
+
+.navbar{
+	background-color:#ff4d4d !IMPORTANT ; 
+
+}
+
+.pregResp{
+    display:inline-block;
+}
+
+/*boton deshabilitado*/
+.btn-primary.disabled, .btn-primary:disabled { 
+    color: #fff;
+    background-color:#ff4d4d;
+    border-color: #ff4d4d;
+}
+
+/*Calificacion*/
+
+.stars-outer {
+  position: relative;
+  display: inline-block;
+}
+
+.stars-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+}
+
+.stars-outer::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: #ccc;
+}
+
+.stars-inner::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: #f8ce0b;
+}
+
+.sony{
+    text-align: center;
+}
