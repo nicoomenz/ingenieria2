@@ -37,6 +37,20 @@ td{/*contenido de la tabla */
     border-radius: 50%;
     border-style: double;
     margin-left: 70px;
+   
+}
+
+#fotoV {
+    float: left;
+    margin-right: 100px;
+    margin-top: 100px;
+   
+}
+
+#botonV {
+    position: relative;
+    bottom: 250px;
+    left: 550px;
 }
 
 p{
@@ -142,3 +156,119 @@ label{
 .sony{
     text-align: center;
 }
+
+.container
+{
+    width: 1200px;
+    align-content: center;
+    margin-top: 10px;
+}
+
+#titulo
+{
+    background-color: #ff4d4d;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 50px;
+    text-align: center;
+    font-size: 170%;
+}
+
+#comentario
+{
+    position: relative;
+    width: 300px;
+    height: 30px;
+    text-align: center;
+    margin-top: 70px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 110%;
+    border-style: none;
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.textarea
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 500px;
+    min-width: 500px;
+    min-height: 225px;
+    max-height: 225px;
+    border-color: #ff4d4d;
+    border-style: solid;
+}
+
+#puntaje
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#puntuacion
+{
+    width: 300px;
+    height: 30px;
+    text-align: center;
+    margin-top: 52px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 110%;
+    border-style: none;
+    background-color: #ff4d4d;
+    color: white;
+}
+
+#fotoperfil
+{
+    margin-top: -510px;
+    width: 200px;
+    height: 200px;
+    margin-bottom: auto;
+    border-color: #ff4d4d;
+    border-style: solid;
+}
+
+#votar
+{
+    margin-top: -150px;
+    float: right;
+    margin-right: 135px;
+    border-color: #ff4d4d;
+    border-style: solid; 
+    background-color: #ff4d4d;
+    color: white;
+    height: 50px;
+    font-size: 120%;
+}
+
+#logo
+{
+    border-radius: 50%;
+    margin-top: -765px;
+    margin-left: 50px;
+    border-color: #ff4d4d;
+    border-style: solid;
+}
+
+#titulo2
+{
+    margin-left: 75px;
+}
+
+#grilla
+{
+    width: 200px;
+    margin-left: 300px;
+    margin-top: -120px;
+}
+
+.caja{
+    display: inline-block;
+}
+

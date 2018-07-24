@@ -98,6 +98,10 @@
                         <input type='hidden' name='usuarioEmail' value='".$registro6['Email_id']."'>
                         <button style='margin-left:100px' type='submit' value='submit' class='btn btn-primary' > perfil piloto </button>
                     </form>
+                    <form  method='post' action='VotarPiloto.php'>
+                        <input type='hidden' name='idViaje' value='".$viaje."'>
+                        <button style='margin-left:100px' type='submit' value='submit' class='btn btn-primary' > votar piloto </button>
+                    </form>
                     ";
                     }
                 ?>
