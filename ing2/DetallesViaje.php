@@ -60,12 +60,12 @@
             <div class="contenido">
                 <?php
                     $viaje=$_POST['id'];
-                    $consulta4="SELECT * FROM viajes WHERE id_viaje = '$viaje' AND borrado='0'";
-                    $consulta5="SELECT * FROM viajes WHERE id_viaje = '$viaje' AND borrado='0'";
+                    $consulta4="SELECT * FROM viajes WHERE id_viaje = '$viaje'";
+                    $consulta5="SELECT * FROM viajes WHERE id_viaje = '$viaje'";
                     if($resultadoConsulta4=mysqli_query($conexion,$consulta4)){
                         if($resultadoConsulta5=mysqli_query($conexion,$consulta5)){
                             $registro4=mysqli_fetch_array($resultadoConsulta4);
-                            $idauto=$registro4['auto_id'];                
+                            $idauto=$registro4['auto_id'];
                             $consulta6="SELECT Email_id FROM vehiculos WHERE id = '$idauto' AND borrado='0'";
                             $resultadoConsulta6=mysqli_query($conexion,$consulta6);
                             $registro6=mysqli_fetch_array($resultadoConsulta6);
@@ -90,8 +90,9 @@
                     $consulta99 = "SELECT * FROM misviajes_copiloto WHERE id_viaje = '$viaje' AND Email_copiloto = '$EmailAct' ";
                     $resCon99 = mysqli_query($conexion, $consulta99);
                     $reg = mysqli_fetch_array($resCon99);
-                    $reg2 =  $reg['estado'];
-                    if ($reg2 === 'aceptado'){
+                    $reg2 =  $reg['estado'];  
+                    $est = $registro4['borrado'];
+                    if (($reg2 === 'aceptado') AND ($est === '0')){
                     echo "
                     <br><br>
                     <form  method='post' action='PerfilAceptado.php'>
@@ -103,6 +104,12 @@
                         <button style='margin-left:100px' type='submit' value='submit' class='btn btn-primary' > votar piloto </button>
                     </form>
                     ";
+                    }
+                    else{
+                            if($est === '1'){
+                                
+                                echo "<p>Este viaje fue eliminado</p>";
+                            }
                     }
                 ?>
                 <br>
