@@ -82,20 +82,9 @@
         <?php
                     
                     $viaje=$_POST['idViaje'];
-                    $consulta4="SELECT * FROM viajes WHERE id_viaje = '$viaje' AND borrado='0'";
-                    $consulta5="SELECT * FROM viajes WHERE id_viaje = '$viaje' AND borrado='0'";
-                    if($resultadoConsulta4=mysqli_query($conexion,$consulta4)){
-                        if($resultadoConsulta5=mysqli_query($conexion,$consulta5)){
-                            $registro4=mysqli_fetch_array($resultadoConsulta4);
-                            $idauto=$registro4['auto_id'];                
-                            $consulta6="SELECT Email_id FROM vehiculos WHERE id = '$idauto' AND borrado='0'";
-                            $resultadoConsulta6=mysqli_query($conexion,$consulta6);
-                            $registro6=mysqli_fetch_array($resultadoConsulta6);
-                            $EmailAuto=$registro6['Email_id'];
-                        }
-                    }
+                    $EmailCop=$_POST['CopilotoEmail'];        
                     
-                    $consulta="SELECT Foto FROM usuarios WHERE Email = '$EmailAuto'";
+                    $consulta="SELECT Foto FROM usuarios WHERE Email = '$EmailCop'";
                     if($resul=mysqli_query($conexion,$consulta)){
                       $row=mysqli_fetch_array($resul);
                     }
@@ -108,7 +97,7 @@
                         echo '<img id="fotoV" class="avatarPerfil"  src="data:image/jpeg;base64,'.base64_encode($row['Foto']).'" />';      
                     
                 ?>   
-        <form class="caja" name="f1" action="RegistrarComentarioYVotoAPiloto.php" method = "post" onsubmit="return validar_Datos()">
+            <form class="caja" name="f1" action="RegistrarComentarioCopiloto.php" method = "post" onsubmit="return validar_Datos()">
            <label id="comentario">Ingrese un comentario</label>
            
              <textarea name="cajatexto" value="comentario" class="textarea" id="cajatexto" aria-label="Comentario"></textarea>
@@ -120,7 +109,8 @@
                 <option value="-1">Malo (-1)</option>
               </select>
            <?php echo"
-                        <form   method='post' action='RegistrarComentarioYVotoAPiloto.php'>
+                        <form   method='post' action='RegistrarComentarioCopiloto.php'>
+                        <input type='hidden' name='CopEmail' value='".$EmailCop."'>
                         <input type='hidden' name='id' value='".$viaje."'>
                         <button id='botonV' type='submit' value='submit' class='btn btn-primary'> Enviar Votacion </button>
                         </form>";
@@ -131,7 +121,7 @@
            
         <table class="table table-user-information" id="grilla">
                  <?php
-                    $consulta2="SELECT * FROM usuarios WHERE Email = '$EmailAuto'";
+                    $consulta2="SELECT * FROM usuarios WHERE Email = '$EmailCop'";
                     $resultadoConsulta28= mysqli_query($conexion,$consulta2);
                     $registroPi = mysqli_fetch_array($resultadoConsulta28);
                     

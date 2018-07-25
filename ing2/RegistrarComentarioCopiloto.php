@@ -16,7 +16,7 @@ include ("conexion.php");
                 if ($puntaje != -2)
                 {  
                    
-                   $emailCo = $_SESSION['email'];
+                   $emailCo = $_POST['CopEmail'];
                    $idviaje = $_POST['id'];
                    $consulta = "SELECT auto_id FROM viajes WHERE id_viaje = '$idviaje' AND borrado='0'";
                    if($resultadoConsulta=mysqli_query($conexion,$consulta)){
@@ -25,15 +25,14 @@ include ("conexion.php");
                         $consulta2="SELECT * FROM vehiculos WHERE id = '$idauto' AND borrado='0'";
                         $resultadoConsulta2=mysqli_query($conexion,$consulta2);
                         $registro2=mysqli_fetch_array($resultadoConsulta2);
-                        $EmailAuto=$registro2['Email_id'];
                    }
-                   $emailPi = $EmailAuto;
+                   $emailPi = $_SESSION['email'];
                    $patente = $registro2['Patente'];
                    $resultado = $conexion -> query("INSERT INTO votaciones(Email_piloto,Email_copiloto,patente,calificacion,comentario,id_viaje) VALUES ('$emailPi', '$emailCo' , '$patente', '$puntaje', '$comentario', '$idviaje')");
                    if ($resultado)
                    {
                        $_SESSION['votexitosa'] = false;
-                       header("Location:MisViajesCopi.php");
+                       header("Location:MisViajesPilo.php");
                    }
                    else
                    {
@@ -45,6 +44,6 @@ include ("conexion.php");
     }
     else{
     echo "No se pudo cargar los datos";
-    header("Location:VotarPiloto.php");
-    }
+    header("Location:VotarCopiloto.php");
+}
 

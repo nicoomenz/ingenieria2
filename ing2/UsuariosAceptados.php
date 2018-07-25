@@ -99,7 +99,14 @@
                                                         <button type='submit' value='submit' class='btn btn-primary'> perfil </button>
                                                     </form>
                                                 </td>
-                                                <td></td>
+                                                <td>
+                                                    <form  method='post' action='VotarCopiloto.php'>
+                                                        <input type='hidden' name='CopilotoEmail' value='".$registro['Email_copiloto']."'>
+                                                        <input type='hidden' name='idViaje' value='".$viaje."'>
+                                                        <button style='margin-left:100px' type='submit' value='submit' class='btn btn-primary' >votar</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
                                                 ";
                                                 
                                                   
