@@ -174,14 +174,53 @@
                                 ?>
                                 </label>
                             </td>
+                        </tr
+                         <tr>
+                            <td>
+                                <label>Su reputacion como piloto: 
+                            </td>
+                            <td>
+                                <?php 
+                                   $consulta3 = "SELECT SUM(calificacion) as total FROM votaciones WHERE Email_piloto = '$email'";
+                                   $resultado = $conexion -> query($consulta3);
+                                   $row = $resultado -> fetch_assoc();
+                                   if ($row["total"] < 0 || $row["total"] == null)
+                                   {
+                                       echo 0;
+                                   }
+                                   else
+                                   {
+                                       echo $row["total"];
+                                   }
+                                ?>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Su reputacion como copiloto: 
+                            </td>
+                            <td>
+                                <?php 
+                                   $consulta4 = "SELECT SUM(calificacion) as total FROM votaciones WHERE Email_copiloto = '$email'";
+                                   $resultado2 = $conexion -> query($consulta4);
+                                   $row2 = $resultado2 -> fetch_assoc();
+                                   if ($row2["total"] < 0 || $row2["total"] == null)
+                                   {
+                                       echo 0;
+                                   }
+                                   else
+                                   {
+                                       echo $row2["total"];
+                                   }
+                                ?>
+                                </label>
+                            </td>
                         </tr>
                     </table>
                     <a class="btn btn-sm btn-primary btn-block" id="boton2" href="ModDatPerfil.php" >Modificar mis datos </a>
                 </div> 
-        </div>
-        
-        
-        
+        </div>    
         
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

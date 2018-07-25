@@ -85,9 +85,6 @@ function validarPrecio($precio){
  
    if($conexion){
    $idviaje=$_POST['id'];
-   echo $fecha = $_POST['fecha'];
-   echo $hora = $_POST['hora'];
-   echo $id_auto=$_POST['vehiculo'];
    $resultado12=false;
    if(isset($_POST['origen']) && isset($_POST['destino']) && isset($_POST['fecha']) && isset($_POST['precio']) && isset($_POST['id'])){
      $origen = $_POST['origen']; 
