@@ -38,46 +38,6 @@
        }
      </script>
     <body style="background-color: white">
-        <header>
-			<!-- Barra Navegador -->
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<a class="navbar-brand" href="PagPrin.php"><img class="avatar" src="logo.jpg"></a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item active">
-							<a class="nav-link" href="publicarViaje.php">Publicar viaje <span class="sr-only">(current)</span></a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Vehiculos
-							</a>
-							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<a class="dropdown-item" href="RegVehi.php">Registrar Vehiculo</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="MisAutos.php">Ver mis Vehiculos</a>				
-							</div>
-						</li>
-						<li class="nav-item active">
-							<a class="nav-link" href="miperfil.php">Mi Perfil <span class="sr-only">(current)</span></a>
-						</li>
-                         <li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Mis viajes
-							</a>
-							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<a class="dropdown-item" href="MisViajesPilo.php">Como Piloto</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="MisViajesCopi.php">Como copiloto</a>				
-							</div>
-						</li>
-					</ul>
-				</div>
-			</nav>
-		</header>
-        <br>
         <div class="container">
         <?php
                     
@@ -106,7 +66,7 @@
                         echo '<img id="fotoV" src="icono_users.png" class="avatarPerfil" />';
                     else
                         echo '<img id="fotoV" class="avatarPerfil"  src="data:image/jpeg;base64,'.base64_encode($row['Foto']).'" />';      
-                    
+                     
                 ?>   
         <form class="caja" name="f1" action="RegistrarComentarioYVotoAPiloto.php" method = "post" onsubmit="return validar_Datos()">
            <label id="comentario">Ingrese un comentario</label>
@@ -127,40 +87,14 @@
            ?>
         </form>
              
-                 
-           
-        <table class="table table-user-information" id="grilla">
                  <?php
                     $consulta2="SELECT * FROM usuarios WHERE Email = '$EmailAuto'";
                     $resultadoConsulta28= mysqli_query($conexion,$consulta2);
                     $registroPi = mysqli_fetch_array($resultadoConsulta28);
                     
                  ?>
-                        <tr>
-                            <td>
-                                <label>Nombre: 
-                            </td>
-                            <td>
-                                <?php 
-                                    $nombre = $registroPi['Nombre'];
-                                        echo "$nombre";
-                                ?>
-                                </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>Apellido: 
-                            </td>
-                            <td>
-                                <?php 
-                                    $apellido = $registroPi['Apellido'];
-                                        echo "$apellido";
-                                ?>
-                                </label>
-                            </td>
-                        </tr>
-             </table>
+           
+        
         </div>
         
      </body>

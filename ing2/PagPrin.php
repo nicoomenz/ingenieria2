@@ -56,37 +56,76 @@
 				</div>
 			</nav>
 		</header>
-		<form>
+		<form action="PagPrinBusquedaOriYDes.php" method="post" onsubmit="return verificar_Campos();">
 			<!-- Buscardor-->
-			<div class="form-row align-items-center">
+                        <div class="form-row align-items-center">
 				<div class="col-sm-3 my-1">
-					<label >Origen</label>
-					<input type="text" class="form-control" id="inlineFormInputName" placeholder="Ingresá desde donde viajas">
-					
+					<label>Origen</label>
+					<input type="text" class="form-control" name="origen" id="origen" placeholder="Ingresá desde donde viajas">					
 				</div>
 				<div class="col-sm-3 my-1">
 					<label>Destino</label>
-					<input type="text" class="form-control" id="inlineFormInputName" placeholder="Ingresá hacia dónde viajas">
-					
+					<input type="text" class="form-control" name="destino" id="destino" placeholder="Ingresá hacia dónde viajas">					
 				</div>
 				<div class="col-sm-3 my-1">
-                                    <button type="submit" class="btn btn-primary" style="margin-top: 30px;">Buscar</button>
+                                    <button type="submit" value="submit" class="btn btn-primary" style="margin-top: 30px;" name="buscar" id="buscar">Buscar</button>
 				</div>
 			</div>
-		</form>
+                        <script>
+                            function verificar_Campos()
+                            {
+                                valueOri = document.getElementById("origen").value;
+                                valueDes = document.getElementById("destino").value;
+                                okOri = false;
+                                okDes = false;
+                                if (valueOri != "")
+                                {
+                                    okOri = true;
+                                }
+                                if (valueDes != "")
+                                {
+                                    okDes = true;
+                                }
+                                if(okOri || okDes)
+                                {
+                                    return true;
+                                }
+                                else
+                                {
+                                    alert("Campos de origen y destino vacios. Alguno de los dos debe ser completado para poder realizar la busqueda.");
+                                    return false;
+                                }
+                            }                          
+                       </script>    
+		</form>         
+                
 		<!-- tabla de resultados -->
 		<div >
                     <?php
-                        include("conexion.php");                       
+                        include("conexion.php");     
+                        $origen = '*';
+                        $destino = '*';
                         $consulta="SELECT * FROM viajes WHERE borrado='0' ";
                         $consulta2="SELECT * FROM viajes WHERE borrado='0' ";
+                        if (isset($_SESSION['origenBusqueda']))
+                        {
+                           $origen = $_SESSION['oriValue'];
+                           $consulta .= "AND origen='$origen' ";
+                           unset($_SESSION['origenBusqueda']);
+                        }
+                        if (isset($_SESSION['destinoBusqueda']))
+                        {
+                           $destino = $_SESSION['desValue'];
+                           $consulta .= "AND destino='$destino'";
+                           unset($_SESSION['destinoBusqueda']);
+                        }
                         if($resultadoConsulta=mysqli_query($conexion,$consulta)){
                             if($resultadoConsulta2=mysqli_query($conexion,$consulta2)){
                                 $registro44=mysqli_fetch_row($resultadoConsulta2);
                                 if($registro44[0] != ''){
                                     echo "
                                     <div class='container3'>
-                                    <table class='table'>
+                                    <table class='table' id='tabla-viajes'>
                                         <thead class='thead-dark'>
                                             <tr>
                                                 <th>Origen</th>
@@ -121,6 +160,7 @@
                         echo "<label class='noPoseeVeh'><h3> No hay viajes registrados.</h3></label>";
                  }
                }
+               
 
 
 

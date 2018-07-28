@@ -72,8 +72,6 @@
 						<th>Fecha</th>
 						<th>Hora</th>
 						<th>Precio</th>
-                                                <th>Postulados</th>
-                                                <th>Aceptados</th>
                                                 <th></th>
                                                 <th></th>
 					</tr>
@@ -93,10 +91,6 @@
                     $resucon3=mysqli_query($conexion,$consulta3);
                     $arreglo_prest=mysqli_fetch_array($resucon3);
                     $aceptados=$arreglo_prest['0'];
-                    $consulta4="SELECT COUNT(id_viaje) FROM misviajes_copiloto WHERE id_viaje = '$viaje' AND estado='en espera'";
-                    $resucon4=mysqli_query($conexion,$consulta4);
-                    $arreglo_prest2=mysqli_fetch_array($resucon4);
-                    $postulados=$arreglo_prest2['0'];
                     while($registro=mysqli_fetch_array($resultadoConsulta)){	
                             $horaForm=date('g:ia', strtotime($registro['hora']));
                             if($registro['borrado'] === '0'){
@@ -106,8 +100,6 @@
 				<td>".$registro['fecha']."</td>
 				<td>".$horaForm."</td>
 				<td>$".$registro['precio']."</td>
-                                <td>".$postulados."</td>
-                                <td>".$aceptados."</td>
 				<td>
                                     <form   method='post' action='DetallesViaje.php'>
                                         <input type='hidden' name='id' value='".$registro['id_viaje']."'>
@@ -211,16 +203,6 @@
                         return false;
                     }
 		</script>
-                </script>
-                                            <?php 
-                              if(isset($_SESSION['resexitosa'])){
-                                     $message="¡Se publico su respuesta correctamente!";
-                    echo "<script>
-                        alert('$message') 
-                    </script>";
-                                     unset($_SESSION['resexitosa']);
-                                    }
-                               ?> 
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 		<script src="js/bootstrap.min.js"></script>

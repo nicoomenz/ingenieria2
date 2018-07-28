@@ -59,10 +59,9 @@
             <br>
             <div class="contenido">
                 <?php
-                   
                     $viaje=$_POST['id'];
-                    $consulta4="SELECT * FROM viajes WHERE id_viaje = '$viaje'";
-                    $consulta5="SELECT * FROM viajes WHERE id_viaje = '$viaje'";
+                    $consulta4="SELECT * FROM viajes WHERE id_viaje = '$viaje' AND borrado='0'";
+                    $consulta5="SELECT * FROM viajes WHERE id_viaje = '$viaje' AND borrado='0'";
                     if($resultadoConsulta4=mysqli_query($conexion,$consulta4)){
                         if($resultadoConsulta5=mysqli_query($conexion,$consulta5)){
                             $registro4=mysqli_fetch_array($resultadoConsulta4);
@@ -92,42 +91,29 @@
                     $resCon99 = mysqli_query($conexion, $consulta99);
                     $reg = mysqli_fetch_array($resCon99);
                     $reg2 =  $reg['estado'];
-                    $est = $registro4['borrado'];
-                    $pag = $reg['pagado'];
-                    
-                    if (($reg2 === 'aceptado') AND ($est === '0')){
+                    if ($reg2 === 'aceptado'){
                     echo "
                     <br><br>
                     <form  method='post' action='PerfilAceptado.php'>
                         <input type='hidden' name='usuarioEmail' value='".$registro6['Email_id']."'>
                         <button style='margin-left:100px' type='submit' value='submit' class='btn btn-primary' > perfil piloto </button>
-                    </form>";
-                    if ($pag === '1'){
-                        echo " <br>
-                            <form  method='post' action='VotarPiloto.php'>
-                                <input type='hidden' name='idViaje' value='".$viaje."'>
-                                <button style='margin-left:100px' type='submit' value='submit' class='btn btn-primary' > votar piloto </button>
-                            </form>
-                            ";
-                    }
-                    else {
-                            echo "<br>
-                            <form  method='post' action='VotarPiloto.php'>
-                                <input type='hidden' name='idViaje' value='".$viaje."'>
-                                <button disabled='true' style='margin-left:100px' type='submit' value='submit' class='btn btn-primary' > votar piloto </button>
-                            </form>
-                            <p>Debe pagar el viaje para votar</p>
-                            ";
-                        
-                    }
-                    }
-                    else{
-                            if($est === '1'){
-                                
-                                echo "<p>Este viaje fue eliminado</p>";
-                            }
+                    </form>
+                    <form  method='post' action='VotarPiloto.php'>
+                        <input type='hidden' name='idViaje' value='".$viaje."'>
+                        <button style='margin-left:100px' type='submit' value='submit' class='btn btn-primary' > votar piloto </button>
+                    </form>
+                    ";
                     }
                 ?>
+                <br>
+                <br>
+                <div class="sony">
+                        <div class="stars-outer">
+                            <div class="stars-inner"></div>
+                        </div>
+                        <span class="number-rating"></span>
+                </div> 
+                <br>
                 <br>
                 <?php
                     //datos del viaje
@@ -246,13 +232,23 @@
                   }
           }
      }      
-            if (($asientosDispo>0) AND ($est === '0')){
+            if ($asientosDispo>0){
             echo"
                 <form  method='post' action='postularse.php'>
                     <input type='hidden' name='id' value='".$registro['id_viaje']."'>
                     <button type='submit' value='submit' class='btn btn-sm btn-primary btn-block' >Postularse </button>
                 </form>
             ";
+            }
+            else{
+                
+                echo"
+                <form  method='post' action='postularse.php'>
+                    <input type='hidden' name='id' value='".$registro['id_viaje']."'>
+                    <button disabled='true' type='submit' value='submit' class='btn btn-sm btn-primary btn-block' >Postularse </button>
+                </form>
+                <p>no hay asientos disponibles</p>
+                ";
             }
                   
                ?>
@@ -315,110 +311,28 @@
                         }
                     }
                 }
-            ?>        
-
-        </div>
-        <?php
-        $idviaje = $_POST['id'];
-        $res = mysqli_query($conexion,"SELECT auto_id FROM viajes WHERE id_viaje = '$viaje'");
-        $registro = mysqli_fetch_array($res);
-        $idauto = $registro['auto_id'];
-        $emailusuario = $_SESSION['email'];
-        $res = mysqli_query($conexion,"SELECT id FROM vehiculos WHERE Email_id = '$emailusuario'");
-        $row = $res -> fetch_assoc();
-        $consulta="SELECT * FROM preguntas WHERE id_viaje= '$idviaje'";
-        $resultadoConsulta= mysqli_query($conexion,$consulta);
-        $ok = false;
-        if ($row == null)
-        {
-            $ok = true;
-        }
-        else
-        {
-            if (!in_array($idauto, $row))
-            {
-                $ok = true;
-            }
-        }     
-        if($ok)
-        { 
-        echo "
-            <div style='position: absolute; margin-left: -525px;'>
-            <label id='titulo4' style='margin-top:50px'>Preguntas y respuestas</label>
-            <form action='RegistrarPregunta.php' method='post' onsubmit='return validar_Datos();'> 
-                <input type='hidden' name='Email_id' value='".$emailusuario."'>
-                <input type='hidden' name='id_viaje' value='".$idviaje."'>
-                <textarea type='text' name='pregunta' id='pregunta' placeholder='Ingrese una pregunta.'></textarea>
-                <button class='btn btn-primary' type='submit' value='submit' id='boton-pregunta' style='margin-top:10px; margin-left:718px'>Enviar pregunta</button>
-                <hr style='color: #0056b2;'/>
-                </form>";  
-	        $consulta="SELECT * FROM preguntas WHERE id_viaje ='$idviaje'";
-                $resultadoConsulta=mysqli_query($conexion,$consulta);
-                while($registro=mysqli_fetch_array($resultadoConsulta)){
-                    $emailcoment = $registro['Email_id'];
-                    $res = mysqli_query($conexion,"SELECT * FROM usuarios WHERE Email = '$emailcoment'");
-                    $reg = mysqli_fetch_array($res);
-                    $pregunta = $registro['Descripcion'];
-                    $nombre = $reg['Nombre'];
-                    $apellido = $reg['Apellido'];   
-                    $img = base64_encode($reg['Foto']);
-                    echo "
-                       <img style='vertical-align: middle; width: 90px; height: 90px; border-radius: 50%; border-style: double; margin-left: 110px;' src='data:image/jpeg;base64, $img'/>
-                       <label style='text-align: center; overflow: hidden; margin-left: 66px; margin-top: 10px; font-size: 100%; width: 170px; height: 60px; border-color: #000000; border-style: double; background-color: #ff4d4d'> $nombre $apellido </label>
-                       <label style='margin-left: auto; margin-right: auto; margin-top: -180px; border-color: #ff4d4d; border-style: solid; width: 500px; height: 70px; overflow: hidden;'> $pregunta </label>";
-                       if (!($registro['Respuesta'] == ' ' or $registro['Respuesta'] == null or $registro['Respuesta'] == ''))
-                       {
-                           $respuesta = $registro['Respuesta'];
-                           echo"
-                           <label style='margin-left: 500px; margin-right: auto; margin-top: 30px; border-color: #8b8282; border-style: solid; width: 500px; height: 70px; overflow: hidden;'> $respuesta </label>                                 
-                           <label style='margin-left: 1080px; margin-top: -60px; font-size: 130%; width: 200px; border-color: #8b8282; border-style: solid;'> Respuesta del piloto. </label>
-                           <hr style='color: #0056b2; margin-top: 30px;'/>";
-                       }
-                       else{
-                           echo "<hr style='color: #0056b2; margin-top: 110px;'/>"; 
-                       }
-                }                     
-        }
-        else{
-           echo "
-            <div>
-            <label id='titulo3' style='margin-top:820px'>Preguntas y respuestas</label>";
-            $consulta="SELECT * FROM preguntas WHERE id_viaje ='$idviaje'";
-                $resultadoConsulta=mysqli_query($conexion,$consulta);
-                echo "<br>";
-                while($registro=mysqli_fetch_array($resultadoConsulta)){
-                    $emailcoment = $registro['Email_id'];
-                    $res = mysqli_query($conexion,"SELECT * FROM usuarios WHERE Email ='$emailcoment'");
-                    $reg = mysqli_fetch_array($res);
-                    $pregunta = $registro['Descripcion'];
-                    $nombre = $reg['Nombre'];
-                    $apellido = $reg['Apellido'];   
-                    $img = base64_encode($reg['Foto']);
-                    echo "
-                       <img style='vertical-align: middle; width: 90px; height: 90px; border-radius: 50%; border-style: double; margin-left: 110px;' src='data:image/jpeg;base64, $img'/>
-                       <label style='text-align: center; overflow: hidden; margin-left: 66px; margin-top: 10px; font-size: 100%; width: 170px; height: 60px; border-color: #000000; border-style: double; background-color: #ff4d4d'> $nombre $apellido </label>
-                       <label style='margin-left: auto; margin-right: auto; margin-top: -180px; border-color: #ff4d4d; border-style: solid; width: 500px; height: 70px; overflow: hidden;'> $pregunta </label>";
-                       if (!($registro['Respuesta'] == ' ' or $registro['Respuesta'] == null or $registro['Respuesta'] == ''))
-                       {
-                           $respuesta = $registro['Respuesta'];
-                           echo"
-                           <label style='margin-left: 500px; margin-right: auto; margin-top: 30px; border-color: #8b8282; border-style: solid; width: 500px; height: 70px; overflow: hidden;'> $respuesta </label>                                 
-                           <label style='margin-left: 1080px; margin-top: -60px; font-size: 130%; width: 200px; border-color: #8b8282; border-style: solid;'> Respuesta del piloto. </label>
-                           <hr style='color: #0056b2; margin-top: 30px;'/>";
-                       }
-                       else{
-                           echo" <form action='RegistrarRespuesta.php' method='post' onsubmit='return validar_Datos2();'> 
-                                 <input type='hidden' name='Descripcion' value='".$pregunta."'>
-                                 <input type='hidden' name='Email' value='".$emailcoment."'>
-                                 <input type='hidden' name='id_viaje' value='".$idviaje."'>
-                                 <textarea type='text' name='respuesta' id='respuesta' placeholder='Ingrese su respuesta.'></textarea>
-                                 <button class='btn btn-primary' type='submit' value='submit' id='boton-pregunta' style='margin-top:-90px; margin-left:1070px'>Enviar respuesta</button>
-                                 <hr style='color: #0056b2; margin-top: -10px;'/>
-                                 </form>"; 
-                       }
-                  } 
-        } echo"</div>"
-        ?>
+            ?>
+                
+                
+            
+            <br>
+            <br>
+            
+           
+            </div>
+            
+            <div style="margin-top:800px" >
+                <div class="pregResp">
+                <h4>Preguntas y respuestas</h4>
+                <textarea type="text" placeholder="Escribí una pregunta" maxlength="2000"></textarea>
+                </div>
+                <div class="pregResp">
+                    <input class='btn btn-sm btn-primary btn-block' type="submit" value="preguntar">
+                </div>
+            </div>
+            <br>
+            <br>
+            
             
             <script type="text/javascript"> 
                 function confirmarSalir(){
@@ -428,35 +342,6 @@
                   else
                     return false;
                 }
-            </script>
-            
-            
-             <script>
-             function validar_Datos()
-             {
-              valor = document.getElementById("pregunta").value;
-    
-              if (valor == null || valor == "")
-              {
-               window.alert('El campo comentario esta vacio.');
-               return false;
-             }
-              return true;
-             }
-            
-            function validar_Datos2()
-             {
-              valor = document.getElementById("respuesta").value;
-    
-              if (valor == null || valor == "")
-              {
-               window.alert('El campo comentario esta vacio.');
-               return false;
-            }
-             return true;
-            }
-    
-            
             </script>
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

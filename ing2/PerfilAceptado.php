@@ -142,48 +142,6 @@
                                 </label>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <label>Su reputacion como piloto: 
-                            </td>
-                            <td>
-                                <?php 
-                                   $consulta3 = "SELECT SUM(calificacion) as total FROM votaciones WHERE Email_piloto = '$email'";
-                                   $resultado = $conexion -> query($consulta3);
-                                   $row = $resultado -> fetch_assoc();
-                                   if ($row["total"] < 0 || $row["total"] == null)
-                                   {
-                                       echo 0;
-                                   }
-                                   else
-                                   {
-                                       echo $row["total"];
-                                   }
-                                ?>
-                                </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>Su reputacion como copiloto: 
-                            </td>
-                            <td>
-                                <?php 
-                                   $consulta4 = "SELECT SUM(calificacion) as total FROM votaciones WHERE Email_copiloto = '$email'";
-                                   $resultado2 = $conexion -> query($consulta4);
-                                   $row2 = $resultado2 -> fetch_assoc();
-                                   if ($row2["total"] < 0 || $row2["total"] == null)
-                                   {
-                                       echo 0;
-                                   }
-                                   else
-                                   {
-                                       echo $row2["total"];
-                                   }
-                                ?>
-                                </label>
-                            </td>
-                        </tr>
                     </table>
                     
                 </div> 
