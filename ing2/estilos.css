@@ -53,7 +53,7 @@ th{/*color de la tabla*/
 }
 .container3{
 
-    padding: 10px 200px 200px 200px;
+    padding: 10px 200px 50px 200px;
 }
 .noPoseeVeh{
   margin-left: 500px;
@@ -64,4 +64,16 @@ th{/*color de la tabla*/
 }
 
 
-
+.form-row>.col, .form-row>[class*=col-] {
+    padding-right: 90px;
+    padding-left: 5px;
+    margin-left: -77px;
+}
+.pagination {
+    display: -ms-flexbox;
+    display: flex;
+    margin-right: 65px;
+    padding-left: 0px;
+    list-style: none;
+    border-radius: .25rem;
+}

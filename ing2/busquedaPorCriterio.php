@@ -61,21 +61,21 @@
 			<div class="form-row align-items-center">
 				<div class="col-sm-3 my-1">
 					<label >Origen</label>
-					<input type="text" class="form-control" name="origen" id="origen"  placeholder="Ingresá desde donde viajas">
+					<input type="text" class="form-control" id="origen" value="<?php echo $_GET["origen"];?>" placeholder="Ingresá desde donde viajas">
 					
 				</div>
 				<div class="col-sm-3 my-1">
 					<label>Destino</label>
-					<input type="text" class="form-control" name="destino" id="destino" placeholder="Ingresá hacia dónde viajas">
+					<input type="text" class="form-control" id="destino" value="<?php echo $_GET["destino"];?>" placeholder="Ingresá hacia dónde viajas">
 					
 				</div>
 				<div class="col-sm-3 my-1">
 					<label>Precio</label>
-					<input type="number" class="form-control" name="precio"  id="precio" placeholder="Ingresá el precio máximo">
+					<input type="number" class="form-control" id="precio" value="<?php echo $_GET["precio"];?>" placeholder="Ingresá el precio máximo">
 				</div>
 				<div class="col-sm-3 my-1">
 					<label>Fecha</label>
-					<input type="date" class="form-control" name="fecha" id="fecha" placeholder="Ingresá la fecha que deseas">
+					<input type="date" class="form-control" id="fecha" value="<?php echo $_GET["fecha"];?>" placeholder="Ingresá la fecha que deseas">
 					
 				</div>
 				<div class="col-sm-3 my-1">
@@ -84,24 +84,29 @@
 			</div>
 		</form>
 		<!-- tabla de resultados -->
-		<div >
+		<div>
                     <?php
                         include("conexion.php");
+                        $origen=$_GET["origen"];
+                        $destino=$_GET["destino"];
+                        $precio=$_GET["precio"];
+                        $fecha= $_GET["fecha"];
                         $cantresult=5;
                         if(isset($_GET['pagina'])){
                         	$pagina=$_GET['pagina'];
                         }
                         else
                           $pagina=1;
-
-                        $empezar_desde = ($pagina-1) * $cantresult;                       
-                        $consulta="SELECT * FROM viajes WHERE borrado='0' ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
-                        $consulta2="SELECT * FROM viajes WHERE borrado='0' ORDER BY fecha DESC ";
-                        $consultaTotal ="SELECT * FROM viajes WHERE borrado='0' ";     
-                        $resulTotal=mysqli_query($conexion,$consultaTotal);
-                        $totalRegs=mysqli_num_rows($resulTotal);
-                        $totPags=ceil($totalRegs / $cantresult);
-                        if($resultadoConsulta=mysqli_query($conexion,$consulta)){
+                         $empezar_desde = ($pagina-1) * $cantresult;
+                        //Por precio
+                        if($origen =='' && $destino=='' && $precio!='' && $fecha==''){
+                          $consultaTotal="SELECT * FROM viajes WHERE precio <= $precio AND borrado='0' ";
+                          $consulta="SELECT * FROM viajes WHERE  precio <= $precio AND borrado='0' ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult ";
+                          $consulta2="SELECT * FROM viajes WHERE precio <= $precio AND borrado='0' ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
+                          $resulTotal=mysqli_query($conexion,$consultaTotal);
+                          $totalRegs=mysqli_num_rows($resulTotal);
+                          $totPags=ceil($totalRegs / $cantresult);
+                          if($resultadoConsulta=mysqli_query($conexion,$consulta)){
                             if($resultadoConsulta2=mysqli_query($conexion,$consulta2)){
                                 $registro44=mysqli_fetch_row($resultadoConsulta2);
                                 if($registro44[0] != ''){
@@ -134,16 +139,69 @@
                                                 </tr>
                                     </tbody>";
 
-                                        }
-                                     }
-
+                                        }}
                                echo"</table>";
 
                   }
                   else
-                        echo "<label class='noPoseeVeh'><h3> No hay viajes registrados.</h3></label>";
+                        echo "<label class='noPoseeVeh'><h3> No hay viajes con esas caracteristicas,pruebe con otro criterio.</h3></label>";
                  }
                }
+               }
+               	//por fecha
+               else
+                 if($origen =='' && $destino=='' && $precio=='' && $fecha!=''){
+                 	      $consultaTotal="SELECT * FROM viajes WHERE  fecha = '$fecha' AND borrado='0' ";
+                          $consulta="SELECT * FROM viajes WHERE  fecha = '$fecha' AND borrado='0' LIMIT $empezar_desde,$cantresult";
+                          $consulta2="SELECT * FROM viajes WHERE fecha = '$fecha' AND borrado='0' ";
+                          $resulTotal=mysqli_query($conexion,$consultaTotal);
+                          $totalRegs=mysqli_num_rows($resulTotal);
+                          $totPags=ceil($totalRegs / $cantresult);
+                          if($resultadoConsulta=mysqli_query($conexion,$consulta)){
+                            if($resultadoConsulta2=mysqli_query($conexion,$consulta2)){
+                                $registro44=mysqli_fetch_row($resultadoConsulta2);
+                                if($registro44[0] != ''){
+                                    echo "
+                                    <div class='container3'>
+                                    <table class='table'>
+                                        <thead class='thead-dark'>
+                                            <tr>
+                                                <th>Origen</th>
+                                                <th >Destino</th>
+                                                <th >Fecha</th>
+                                                <th>Precio</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead> 
+                                    <tbody>";
+                                        while($registro=mysqli_fetch_array($resultadoConsulta)){
+                                             if($registro['borrado'] === '0'){
+                                            echo"<tr>
+                                                    <td>".$registro['origen']."</td>
+                                                    <td>".$registro['destino']."</td>
+                                                    <td>".$registro['fecha']."</td>
+                                                    <td>$".$registro['precio']."</td>
+                                                    <td>
+                                                        <form  method='post' action='DetallesViaje.php'>
+                                                        <input type='hidden' name='id' value='".$registro['id_viaje']."'>
+                                                        <button type='submit' value='submit' class='btn btn-primary'> Detalles </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                    </tbody>";
+
+                                        }}
+                               echo"</table>";
+
+                  }
+                  else
+                        echo "<label class='noPoseeVeh'><h3> No hay viajes con esas caracteristicas,pruebe con otro criterio.</h3></label>";
+                 }
+               }
+           }
+
+
+
 	     ?>
 			<!-- Navegador de paginas-->
 	</div>
@@ -151,7 +209,7 @@
 			<ul class="pagination justify-content-center">
 		    <?php
 		      for($i=1; $i <=$totPags ; $i++){
-		        echo "<li class='page-item'><a class='page-link' href='?pagina=".$i."'>".$i."</a></li>
+		        echo "<li class='page-item'><a class='page-link' href='?pagina=".$i."&precio=".$precio."&fecha=".$fecha."&origen=".$origen."&destino=".$destino."'>".$i."</a></li>
 				</li>";
 			  }  
 		    ?>
