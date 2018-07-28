@@ -9,7 +9,7 @@
         <title>Un aventon</title>
     </head>
     <?php
-      session_start();
+      session_start();//hola
             include ("conexion.php");
             include ("class_funciones.php");
             $fun = new funciones();
