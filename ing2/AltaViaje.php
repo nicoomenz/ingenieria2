@@ -132,22 +132,26 @@ else{
                  $nomemail=$_SESSION['email'];
                  $cant_sem=$cS;
                  if($fecha == $f1){
-                   $query="SELECT * FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto' AND hora BETWEEN '$hora' AND '$horaLLegada'";
-                   $resultquery=mysqli_query($conexion,$query);
-                   $registro=mysqli_fetch_row($resultquery);
-                   if(empty($registro['0'])){
-                     $resultado12 = mysqli_query($conexion ,"INSERT INTO viajes ( auto_id,hora,horaLlegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')") ;
-                     if($resultado12){
-                       $_SESSION['regViaOk'] =true;
-                       header("Location:publicarViaje.php");   
-                     }
+                   $query1="SELECT hora FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto'";
+                   $resultquery1=mysqli_query($conexion,$query1);
+                   $registro1=mysqli_fetch_row($resultquery1);
+                   $horaBD=$registro1['0'];
+                   $query2="SELECT horaLlegada FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto'";
+                   $resultquery2=mysqli_query($conexion,$query2);
+                   $registro2=mysqli_fetch_row($resultquery2);
+                   $horaLlegadaBD=$registro2['0'];
+                   if(($hora>$horaBD) and ($hora<$horaLlegadaBD)){
+                       $_SESSION['viajeImpo'] =true; 
+                        header("Location:publicarViaje.php");
                    }
                    else{
-                     $_SESSION['viajeImpo'] =true; 
-                     header("Location:publicarViaje.php");   
+                      $resultado12 = mysqli_query($conexion ,"INSERT INTO viajes ( auto_id,hora,horaLlegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')") ;
+                     if($resultado12){
+                       $_SESSION['regViaOk'] =true;
+                       header("Location:publicarViaje.php"); 
+                     }
                    }
-                             
-                  }
+                 }
                   else{
                     if($fecha == $f2){
                       $fecha_act=$fecha;

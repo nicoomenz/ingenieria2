@@ -56,7 +56,7 @@
 		
 
 		<h3 class="LabelRegVeh">Publica tu viaje</h3>
-		<form class="regV" action="AltaViajeTest.php" method="post" enctype="multipart/form-data" onsubmit="return validacion()">
+		<form class="regV" action="AltaViaje.php" method="post" enctype="multipart/form-data" onsubmit="return validacion()">
 			<div class="form-group">
 				<label for="texto1"><h5>Origen</h5></label>
 				<input type="text" class="form-control" id="texto1" name="origen" placeholder="Ingresá el origen">
