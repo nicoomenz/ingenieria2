@@ -61,21 +61,21 @@
 			<div class="form-row align-items-center">
 				<div class="col-sm-3 my-1">
 					<label >Origen</label>
-					<input type="text" class="form-control" id="origen" value="<?php echo $_GET["origen"];?>" placeholder="Ingresá desde donde viajas">
+					<input type="text" class="form-control" id="origen" name="origen" value="<?php echo $_GET["origen"];?>" placeholder="Ingresá desde donde viajas">
 					
 				</div>
 				<div class="col-sm-3 my-1">
 					<label>Destino</label>
-					<input type="text" class="form-control" id="destino" value="<?php echo $_GET["destino"];?>" placeholder="Ingresá hacia dónde viajas">
+					<input type="text" class="form-control" id="destino" name="destino" value="<?php echo $_GET["destino"];?>" placeholder="Ingresá hacia dónde viajas">
 					
 				</div>
 				<div class="col-sm-3 my-1">
 					<label>Precio</label>
-					<input type="number" class="form-control" id="precio" value="<?php echo $_GET["precio"];?>" placeholder="Ingresá el precio máximo">
+					<input type="number" class="form-control" id="precio" name="precio" value="<?php echo $_GET["precio"];?>" placeholder="Ingresá el precio máximo">
 				</div>
 				<div class="col-sm-3 my-1">
 					<label>Fecha</label>
-					<input type="date" class="form-control" id="fecha" value="<?php echo $_GET["fecha"];?>" placeholder="Ingresá la fecha que deseas">
+					<input type="date" class="form-control" id="fecha" name="fecha" value="<?php echo $_GET["fecha"];?>" placeholder="Ingresá la fecha que deseas">
 					
 				</div>
 				<div class="col-sm-3 my-1">
@@ -304,8 +304,271 @@
                }
            
         }
+        else
+        //origen y destino combinado
+          if($origen !='' && $destino!='' && $precio=='' && $fecha==''){
+                 	  $consultaTotal="SELECT * FROM viajes WHERE borrado='0' AND origen LIKE \"%$origen%\" AND id_viaje IN (SELECT id_viaje FROM viajes WHERE destino LIKE \"%$destino%\") ";
+                          $consulta="SELECT * FROM viajes WHERE origen LIKE \"%$origen%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes WHERE destino LIKE \"%$destino%\" ) ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
+                          $consulta2="SELECT * FROM viajes WHERE origen LIKE \"%$origen%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes WHERE destino LIKE \"%$destino%\") ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
+                          $resulTotal=mysqli_query($conexion,$consultaTotal);
+                          $totalRegs=mysqli_num_rows($resulTotal);
+                          $totPags=ceil($totalRegs / $cantresult);
+                          if($resultadoConsulta=mysqli_query($conexion,$consulta)){
+                            if($resultadoConsulta2=mysqli_query($conexion,$consulta2)){
+                                $registro44=mysqli_fetch_row($resultadoConsulta2);
+                                if($registro44[0] != ''){
+                                    echo "
+                                    <div class='container3'>
+                                    <table class='table'>
+                                        <thead class='thead-dark'>
+                                            <tr>
+                                                <th>Origen</th>
+                                                <th >Destino</th>
+                                                <th >Fecha</th>
+                                                <th>Precio</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead> 
+                                    <tbody>";
+                                        while($registro=mysqli_fetch_array($resultadoConsulta)){
+                                             if($registro['borrado'] === '0'){
+                                            echo"<tr>
+                                                    <td>".$registro['origen']."</td>
+                                                    <td>".$registro['destino']."</td>
+                                                    <td>".$registro['fecha']."</td>
+                                                    <td>$".$registro['precio']."</td>
+                                                    <td>
+                                                        <form  method='post' action='DetallesViaje.php'>
+                                                        <input type='hidden' name='id' value='".$registro['id_viaje']."'>
+                                                        <button type='submit' value='submit' class='btn btn-primary'> Detalles </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                    </tbody>";
 
+                                        }
+                                    }
+                               echo"</table>";
 
+                  }
+                  else
+                        echo "<label class='noPoseeVeh'><h3> No hay viajes con esas caracteristicas,pruebe con otro criterio.</h3></label>";
+                 }
+               }
+           
+        }
+        else
+          //por origen y precio
+          if($origen !='' && $destino=='' && $precio!='' && $fecha==''){
+                 	  $consultaTotal="SELECT * FROM viajes WHERE borrado='0' AND origen LIKE \"%$origen%\" AND id_viaje IN (SELECT id_viaje FROM viajes WHERE precio <= $precio ) ";
+                          $consulta="SELECT * FROM viajes WHERE origen LIKE \"%$origen%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes  WHERE precio <= $precio ) ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
+                          $consulta2="SELECT * FROM viajes WHERE origen LIKE \"%$origen%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes WHERE precio <= $precio) ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
+                          $resulTotal=mysqli_query($conexion,$consultaTotal);
+                          $totalRegs=mysqli_num_rows($resulTotal);
+                          $totPags=ceil($totalRegs / $cantresult);
+                          if($resultadoConsulta=mysqli_query($conexion,$consulta)){
+                            if($resultadoConsulta2=mysqli_query($conexion,$consulta2)){
+                                $registro44=mysqli_fetch_row($resultadoConsulta2);
+                                if($registro44[0] != ''){
+                                    echo "
+                                    <div class='container3'>
+                                    <table class='table'>
+                                        <thead class='thead-dark'>
+                                            <tr>
+                                                <th>Origen</th>
+                                                <th >Destino</th>
+                                                <th >Fecha</th>
+                                                <th>Precio</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead> 
+                                    <tbody>";
+                                        while($registro=mysqli_fetch_array($resultadoConsulta)){
+                                             if($registro['borrado'] === '0'){
+                                            echo"<tr>
+                                                    <td>".$registro['origen']."</td>
+                                                    <td>".$registro['destino']."</td>
+                                                    <td>".$registro['fecha']."</td>
+                                                    <td>$".$registro['precio']."</td>
+                                                    <td>
+                                                        <form  method='post' action='DetallesViaje.php'>
+                                                        <input type='hidden' name='id' value='".$registro['id_viaje']."'>
+                                                        <button type='submit' value='submit' class='btn btn-primary'> Detalles </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                    </tbody>";
+
+                                        }
+                                    }
+                               echo"</table>";
+
+                  }
+                  else
+                        echo "<label class='noPoseeVeh'><h3> No hay viajes con esas caracteristicas,pruebe con otro criterio.</h3></label>";
+                 }
+               }
+           
+        }
+        else
+          //destino y precio 	
+          if($origen =='' && $destino!='' && $precio!='' && $fecha==''){
+                 	  $consultaTotal="SELECT * FROM viajes WHERE borrado='0' AND destino LIKE \"%$destino%\" AND id_viaje IN (SELECT id_viaje FROM viajes WHERE precio <= $precio ) ";
+                          $consulta="SELECT * FROM viajes WHERE destino LIKE \"%$destino%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes  WHERE precio <= $precio ) ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
+                          $consulta2="SELECT * FROM viajes WHERE destino LIKE \"%$destino%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes WHERE precio <= $precio) ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
+                          $resulTotal=mysqli_query($conexion,$consultaTotal);
+                          $totalRegs=mysqli_num_rows($resulTotal);
+                          $totPags=ceil($totalRegs / $cantresult);
+                          if($resultadoConsulta=mysqli_query($conexion,$consulta)){
+                            if($resultadoConsulta2=mysqli_query($conexion,$consulta2)){
+                                $registro44=mysqli_fetch_row($resultadoConsulta2);
+                                if($registro44[0] != ''){
+                                    echo "
+                                    <div class='container3'>
+                                    <table class='table'>
+                                        <thead class='thead-dark'>
+                                            <tr>
+                                                <th>Origen</th>
+                                                <th >Destino</th>
+                                                <th >Fecha</th>
+                                                <th>Precio</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead> 
+                                    <tbody>";
+                                        while($registro=mysqli_fetch_array($resultadoConsulta)){
+                                             if($registro['borrado'] === '0'){
+                                            echo"<tr>
+                                                    <td>".$registro['origen']."</td>
+                                                    <td>".$registro['destino']."</td>
+                                                    <td>".$registro['fecha']."</td>
+                                                    <td>$".$registro['precio']."</td>
+                                                    <td>
+                                                        <form  method='post' action='DetallesViaje.php'>
+                                                        <input type='hidden' name='id' value='".$registro['id_viaje']."'>
+                                                        <button type='submit' value='submit' class='btn btn-primary'> Detalles </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                    </tbody>";
+
+                                        }
+                                    }
+                               echo"</table>";
+
+                  }
+                  else
+                        echo "<label class='noPoseeVeh'><h3> No hay viajes con esas caracteristicas,pruebe con otro criterio.</h3></label>";
+                 }
+               }
+           
+        }
+        else
+          //origen y fecha
+           if($origen !='' && $destino=='' && $precio=='' && $fecha!=''){
+                 	  $consultaTotal="SELECT * FROM viajes WHERE borrado='0' AND origen LIKE \"%$origen%\" AND fecha = '$fecha' ";
+                          $consulta="SELECT * FROM viajes WHERE borrado='0' AND origen LIKE \"%$origen%\" AND  fecha='$fecha' LIMIT $empezar_desde,$cantresult";
+                          $consulta2="SELECT * FROM viajes WHERE  borrado='0' AND origen LIKE \"%$origen%\" AND fecha = '$fecha' LIMIT $empezar_desde,$cantresult";
+                          $resulTotal=mysqli_query($conexion,$consultaTotal);
+                          $totalRegs=mysqli_num_rows($resulTotal);
+                          $totPags=ceil($totalRegs / $cantresult);
+                          if($resultadoConsulta=mysqli_query($conexion,$consulta)){
+                            if($resultadoConsulta2=mysqli_query($conexion,$consulta2)){
+                                $registro44=mysqli_fetch_row($resultadoConsulta2);
+                                if($registro44[0] != ''){
+                                    echo "
+                                    <div class='container3'>
+                                    <table class='table'>
+                                        <thead class='thead-dark'>
+                                            <tr>
+                                                <th>Origen</th>
+                                                <th >Destino</th>
+                                                <th >Fecha</th>
+                                                <th>Precio</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead> 
+                                    <tbody>";
+                                        while($registro=mysqli_fetch_array($resultadoConsulta)){
+                                             if($registro['borrado'] === '0'){
+                                            echo"<tr>
+                                                    <td>".$registro['origen']."</td>
+                                                    <td>".$registro['destino']."</td>
+                                                    <td>".$registro['fecha']."</td>
+                                                    <td>$".$registro['precio']."</td>
+                                                    <td>
+                                                        <form  method='post' action='DetallesViaje.php'>
+                                                        <input type='hidden' name='id' value='".$registro['id_viaje']."'>
+                                                        <button type='submit' value='submit' class='btn btn-primary'> Detalles </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                    </tbody>";
+
+                                        }
+                                    }
+                               echo"</table>";
+
+                  }
+                  else
+                        echo "<label class='noPoseeVeh'><h3> No hay viajes con esas caracteristicas,pruebe con otro criterio.</h3></label>";
+                 }
+               }
+              
+        }
+        else
+          //destino y fecha
+          if($origen =='' && $destino!='' && $precio=='' && $fecha!=''){
+                 	  $consultaTotal="SELECT * FROM viajes WHERE borrado='0' AND destino LIKE \"%$destino%\" AND fecha = '$fecha' ";
+                          $consulta="SELECT * FROM viajes WHERE borrado='0' AND destino LIKE \"%$destino%\" AND  fecha='$fecha' LIMIT $empezar_desde,$cantresult";
+                          $consulta2="SELECT * FROM viajes WHERE  borrado='0' AND destino LIKE \"%$destino%\" AND fecha = '$fecha' LIMIT $empezar_desde,$cantresult";
+                          $resulTotal=mysqli_query($conexion,$consultaTotal);
+                          $totalRegs=mysqli_num_rows($resulTotal);
+                          $totPags=ceil($totalRegs / $cantresult);
+                          if($resultadoConsulta=mysqli_query($conexion,$consulta)){
+                            if($resultadoConsulta2=mysqli_query($conexion,$consulta2)){
+                                $registro44=mysqli_fetch_row($resultadoConsulta2);
+                                if($registro44[0] != ''){
+                                    echo "
+                                    <div class='container3'>
+                                    <table class='table'>
+                                        <thead class='thead-dark'>
+                                            <tr>
+                                                <th>Origen</th>
+                                                <th >Destino</th>
+                                                <th >Fecha</th>
+                                                <th>Precio</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead> 
+                                    <tbody>";
+                                        while($registro=mysqli_fetch_array($resultadoConsulta)){
+                                             if($registro['borrado'] === '0'){
+                                            echo"<tr>
+                                                    <td>".$registro['origen']."</td>
+                                                    <td>".$registro['destino']."</td>
+                                                    <td>".$registro['fecha']."</td>
+                                                    <td>$".$registro['precio']."</td>
+                                                    <td>
+                                                        <form  method='post' action='DetallesViaje.php'>
+                                                        <input type='hidden' name='id' value='".$registro['id_viaje']."'>
+                                                        <button type='submit' value='submit' class='btn btn-primary'> Detalles </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                    </tbody>";
+
+                                        }
+                                    }
+                               echo"</table>";
+
+                  }
+                  else
+                        echo "<label class='noPoseeVeh'><h3> No hay viajes con esas caracteristicas,pruebe con otro criterio.</h3></label>";
+                 }
+               }
+              
+        }
 
 	     ?>
 			<!-- Navegador de paginas-->
