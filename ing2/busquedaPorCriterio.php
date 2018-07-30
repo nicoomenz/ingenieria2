@@ -61,21 +61,21 @@
 			<div class="form-row align-items-center">
 				<div class="col-sm-3 my-1">
 					<label >Origen</label>
-					<input type="text" class="form-control" id="origen" value="<?php echo $_GET["origen"];?>" placeholder="Ingresá desde donde viajas">
+					<input type="text" class="form-control" name="origen" id="origen" value="<?php echo $_GET["origen"];?>" placeholder="Ingresá desde donde viajas">
 					
 				</div>
 				<div class="col-sm-3 my-1">
 					<label>Destino</label>
-					<input type="text" class="form-control" id="destino" value="<?php echo $_GET["destino"];?>" placeholder="Ingresá hacia dónde viajas">
+					<input type="text" class="form-control" name="destino" id="destino" value="<?php echo $_GET["destino"];?>" placeholder="Ingresá hacia dónde viajas">
 					
 				</div>
 				<div class="col-sm-3 my-1">
 					<label>Precio</label>
-					<input type="number" class="form-control" id="precio" value="<?php echo $_GET["precio"];?>" placeholder="Ingresá el precio máximo">
+					<input type="number" class="form-control" name="precio" id="precio" value="<?php echo $_GET["precio"];?>" placeholder="Ingresá el precio máximo">
 				</div>
 				<div class="col-sm-3 my-1">
 					<label>Fecha</label>
-					<input type="date" class="form-control" id="fecha" value="<?php echo $_GET["fecha"];?>" placeholder="Ingresá la fecha que deseas">
+					<input type="date" class="form-control" name="fecha" id="fecha" value="<?php echo $_GET["fecha"];?>" placeholder="Ingresá la fecha que deseas">
 					
 				</div>
 				<div class="col-sm-3 my-1">
