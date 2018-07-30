@@ -101,8 +101,8 @@
                         //Por precio
                         if($origen =='' && $destino=='' && $precio!='' && $fecha==''){
                           $consultaTotal="SELECT * FROM viajes WHERE precio <= $precio AND borrado='0' ";
-                          $consulta="SELECT * FROM viajes WHERE  precio <= $precio AND borrado='0' ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult ";
-                          $consulta2="SELECT * FROM viajes WHERE precio <= $precio AND borrado='0' ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
+                          $consulta="SELECT * FROM viajes WHERE  precio <= $precio AND borrado='0' ORDER BY fecha ASC LIMIT $empezar_desde,$cantresult ";
+                          $consulta2="SELECT * FROM viajes WHERE precio <= $precio AND borrado='0' ORDER BY fecha ASC LIMIT $empezar_desde,$cantresult";
                           $resulTotal=mysqli_query($conexion,$consultaTotal);
                           $totalRegs=mysqli_num_rows($resulTotal);
                           $totPags=ceil($totalRegs / $cantresult);
@@ -117,7 +117,7 @@
                                             <tr>
                                                 <th>Origen</th>
                                                 <th >Destino</th>
-                                                <th><a href='ordDescBus.php?origen=".$origen."&destino=".$destino."&precio=".$precio."&fecha=".$fecha."'>Fecha</th>
+                                                <th ><a href='busquedaPorCriterio.php?origen=".$origen."&destino=".$destino."&precio=".$precio."&fecha=".$fecha."'>Fecha</th>
                                                 <th>Precio</th>
                                                 <th></th>
                                             </tr>
@@ -203,8 +203,8 @@
                       else
                         if($origen !='' && $destino=='' && $precio=='' && $fecha==''){
                  	      $consultaTotal="SELECT * FROM viajes WHERE origen LIKE '%$origen%' AND borrado='0' ";
-                          $consulta="SELECT * FROM viajes WHERE origen LIKE '%$origen%' AND borrado='0' ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
-                          $consulta2="SELECT * FROM viajes WHERE origen LIKE '%$origen%' AND borrado='0' ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
+                          $consulta="SELECT * FROM viajes WHERE origen LIKE '%$origen%' AND borrado='0' ORDER BY fecha ASC LIMIT $empezar_desde,$cantresult";
+                          $consulta2="SELECT * FROM viajes WHERE origen LIKE '%$origen%' AND borrado='0' ORDER BY fecha ASC LIMIT $empezar_desde,$cantresult";
                           $resulTotal=mysqli_query($conexion,$consultaTotal);
                           $totalRegs=mysqli_num_rows($resulTotal);
                           $totPags=ceil($totalRegs / $cantresult);
@@ -219,7 +219,7 @@
                                             <tr>
                                                 <th>Origen</th>
                                                 <th >Destino</th>
-                                                <th ><a href='ordDescBus.php?origen=".$origen."&destino=".$destino."&precio=".$precio."&fecha=".$fecha."'>Fecha</th>
+                                                <th ><a href='busquedaPorCriterio.php?origen=".$origen."&destino=".$destino."&precio=".$precio."&fecha=".$fecha."'>Fecha</th>
                                                 <th>Precio</th>
                                                 <th></th>
                                             </tr>
@@ -255,8 +255,8 @@
        else
          if($origen =='' && $destino!='' && $precio=='' && $fecha==''){
                  	  $consultaTotal="SELECT * FROM viajes WHERE destino LIKE '%$destino%' AND borrado='0' ";
-                          $consulta="SELECT * FROM viajes WHERE destino LIKE '%$destino%' AND borrado='0' ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
-                          $consulta2="SELECT * FROM viajes WHERE destino LIKE '%$destino%' AND borrado='0' ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
+                          $consulta="SELECT * FROM viajes WHERE destino LIKE '%$destino%' AND borrado='0' ORDER BY fecha ASC LIMIT $empezar_desde,$cantresult";
+                          $consulta2="SELECT * FROM viajes WHERE destino LIKE '%$destino%' AND borrado='0' ORDER BY fecha ASC LIMIT $empezar_desde,$cantresult";
                           $resulTotal=mysqli_query($conexion,$consultaTotal);
                           $totalRegs=mysqli_num_rows($resulTotal);
                           $totPags=ceil($totalRegs / $cantresult);
@@ -271,7 +271,7 @@
                                             <tr>
                                                 <th>Origen</th>
                                                 <th >Destino</th>
-                                                <th ><a href='ordDescBus.php?origen=".$origen."&destino=".$destino."&precio=".$precio."&fecha=".$fecha."'>Fecha</th>
+                                                <th ><a href='busquedaPorCriterio.php?origen=".$origen."&destino=".$destino."&precio=".$precio."&fecha=".$fecha."'>Fecha</th>
                                                 <th>Precio</th>
                                                 <th></th>
                                             </tr>
@@ -308,8 +308,8 @@
         //origen y destino combinado
           if($origen !='' && $destino!='' && $precio=='' && $fecha==''){
                  	  $consultaTotal="SELECT * FROM viajes WHERE borrado='0' AND origen LIKE \"%$origen%\" AND id_viaje IN (SELECT id_viaje FROM viajes WHERE destino LIKE \"%$destino%\") ";
-                          $consulta="SELECT * FROM viajes WHERE origen LIKE \"%$origen%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes WHERE destino LIKE \"%$destino%\" ) ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
-                          $consulta2="SELECT * FROM viajes WHERE origen LIKE \"%$origen%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes WHERE destino LIKE \"%$destino%\") ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
+                          $consulta="SELECT * FROM viajes WHERE origen LIKE \"%$origen%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes WHERE destino LIKE \"%$destino%\" ) ORDER BY fecha ASC LIMIT $empezar_desde,$cantresult";
+                          $consulta2="SELECT * FROM viajes WHERE origen LIKE \"%$origen%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes WHERE destino LIKE \"%$destino%\") ORDER BY fecha ASC LIMIT $empezar_desde,$cantresult";
                           $resulTotal=mysqli_query($conexion,$consultaTotal);
                           $totalRegs=mysqli_num_rows($resulTotal);
                           $totPags=ceil($totalRegs / $cantresult);
@@ -324,7 +324,7 @@
                                             <tr>
                                                 <th>Origen</th>
                                                 <th >Destino</th>
-                                                <th ><a href='ordDescBus.php?origen=".$origen."&destino=".$destino."&precio=".$precio."&fecha=".$fecha."'>Fecha</th>
+                                                <th ><a href='busquedaPorCriterio.php?origen=".$origen."&destino=".$destino."&precio=".$precio."&fecha=".$fecha."'>Fecha</th>
                                                 <th>Precio</th>
                                                 <th></th>
                                             </tr>
@@ -361,8 +361,8 @@
           //por origen y precio
           if($origen !='' && $destino=='' && $precio!='' && $fecha==''){
                  	  $consultaTotal="SELECT * FROM viajes WHERE borrado='0' AND origen LIKE \"%$origen%\" AND id_viaje IN (SELECT id_viaje FROM viajes WHERE precio <= $precio ) ";
-                          $consulta="SELECT * FROM viajes WHERE origen LIKE \"%$origen%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes  WHERE precio <= $precio ) ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
-                          $consulta2="SELECT * FROM viajes WHERE origen LIKE \"%$origen%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes WHERE precio <= $precio) ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
+                          $consulta="SELECT * FROM viajes WHERE origen LIKE \"%$origen%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes  WHERE precio <= $precio ) ORDER BY fecha ASC LIMIT $empezar_desde,$cantresult";
+                          $consulta2="SELECT * FROM viajes WHERE origen LIKE \"%$origen%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes WHERE precio <= $precio) ORDER BY fecha ASC LIMIT $empezar_desde,$cantresult";
                           $resulTotal=mysqli_query($conexion,$consultaTotal);
                           $totalRegs=mysqli_num_rows($resulTotal);
                           $totPags=ceil($totalRegs / $cantresult);
@@ -377,7 +377,7 @@
                                             <tr>
                                                 <th>Origen</th>
                                                 <th >Destino</th>
-                                                <th ><a href='ordDescBus.php?origen=".$origen."&destino=".$destino."&precio=".$precio."&fecha=".$fecha."'>Fecha</th>
+                                                <th ><a href='busquedaPorCriterio.php?origen=".$origen."&destino=".$destino."&precio=".$precio."&fecha=".$fecha."'>Fecha</th>
                                                 <th>Precio</th>
                                                 <th></th>
                                             </tr>
@@ -414,8 +414,8 @@
           //destino y precio 	
           if($origen =='' && $destino!='' && $precio!='' && $fecha==''){
                  	  $consultaTotal="SELECT * FROM viajes WHERE borrado='0' AND destino LIKE \"%$destino%\" AND id_viaje IN (SELECT id_viaje FROM viajes WHERE precio <= $precio ) ";
-                          $consulta="SELECT * FROM viajes WHERE destino LIKE \"%$destino%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes  WHERE precio <= $precio ) ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
-                          $consulta2="SELECT * FROM viajes WHERE destino LIKE \"%$destino%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes WHERE precio <= $precio) ORDER BY fecha DESC LIMIT $empezar_desde,$cantresult";
+                          $consulta="SELECT * FROM viajes WHERE destino LIKE \"%$destino%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes  WHERE precio <= $precio ) ORDER BY fecha ASC LIMIT $empezar_desde,$cantresult";
+                          $consulta2="SELECT * FROM viajes WHERE destino LIKE \"%$destino%\" AND borrado='0' AND id_viaje IN (SELECT id_viaje FROM viajes WHERE precio <= $precio) ORDER BY fecha ASC LIMIT $empezar_desde,$cantresult";
                           $resulTotal=mysqli_query($conexion,$consultaTotal);
                           $totalRegs=mysqli_num_rows($resulTotal);
                           $totPags=ceil($totalRegs / $cantresult);
@@ -430,7 +430,7 @@
                                             <tr>
                                                 <th>Origen</th>
                                                 <th >Destino</th>
-                                                <th ><a href='ordDescBus.php?origen=".$origen."&destino=".$destino."&precio=".$precio."&fecha=".$fecha."'>Fecha</th>
+                                                <th ><a href='busquedaPorCriterio.php?origen=".$origen."&destino=".$destino."&precio=".$precio."&fecha=".$fecha."'>Fecha</th>
                                                 <th>Precio</th>
                                                 <th></th>
                                             </tr>
