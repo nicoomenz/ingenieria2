@@ -8,8 +8,9 @@
       if (isset($_POST['inputCorreo']))
       {
           $correo = $_POST['inputCorreo'];
-          $res = mysqli_query($conexion,"SELECT Email FROM usuarios");
-          if ($res)
+          $res = mysqli_query($conexion,"SELECT Email FROM usuarios WHERE Email='$correo'");
+          $registro = mysqli_fetch_row($res);
+          if ($registro != null)
           {
               //ini_set("sendmail_from","UnAventonSoporteTecnico@gmail.com")
               //$WAGLOBAL_Email_Server = "" ;

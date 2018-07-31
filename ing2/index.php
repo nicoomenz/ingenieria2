@@ -32,6 +32,9 @@
                     <br>
                     ¿No eres miembro todavía?
                     <a class="btn btn-lg btn-primary btn-block" href="Registro.php" > Registrarse </a>
+                    <br>
+                    ¿Has olvidado tu contraseña?
+                    <a class="btn btn-lg btn-primary btn-block" href="RecuperarContraseña.php" > Recuperar contraseña </a>
                     <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
                 </form>
             </div>
@@ -43,7 +46,24 @@
                </script>";
               unset($_SESSION['iniciose']);
             }
+            
+        if(isset($_SESSION['emailEnviado'])){
+              $message="Se envio un correo con la contraseña de su cuenta a su direccion de correo electronico.";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['emailEnviado']);
+            }
+            
+            if(isset($_SESSION['borroexito'])){
+              $message="Se ha borrado su cuenta correctamente.";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['borroexito']);
+            }
             ?>
+  
         <!--js boostrap -->
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

@@ -4,6 +4,13 @@
     height: 520px;
     margin: 50px auto;
 }
+
+#container3{
+    width: 350px;
+    height: 520px;
+    margin: 50px auto;
+}
+
 .atras{
     background-color:rgb(255,255,255);
     border-radius: 0.25rem;

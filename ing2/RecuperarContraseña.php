@@ -15,7 +15,7 @@
 
 
     ?> 
-    <body class="text-center" id="container2">
+    <body class="text-center" id="container3">
         <img src="logo.jpg" width="100px" height="100px">
         <form class="form-signin" name="f1" action="EnviarCorreo.php" method = "post" onsubmit="return validar_Correo();">
             <h1 class="h3 mb-3 font-weight-normal" width="500px">Para poder recuperar su contraseña, debera ingresar el correo electronico correspondiente a su cuenta.</h1>        
