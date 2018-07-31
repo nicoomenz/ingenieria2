@@ -181,6 +181,20 @@
                </script>";
               unset($_SESSION['viajeImpo']);
            }
+            if(isset($_SESSION['viajeImpoSemanal'])){
+              $message="El viaje no puede realizarse, porque ya tenes viajes creados dentro de las proximas semanas a este horario";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['viajeImpoSemanal']);
+           }
+           if(isset($_SESSION['viajeImpoDiario'])){
+              $message="El viaje no puede realizarse, porque ya tenes viajes creados dentro de los proximos dias a ese horario";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['viajeImpoDiario']);
+           }
         ?> 
         <script type="text/javascript">
         	function openType(evt, tipo) {

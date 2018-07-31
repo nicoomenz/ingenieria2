@@ -86,6 +86,7 @@ function validarPrecio($precio){
    if($conexion){
    $idviaje=$_POST['id'];
    $resultado12=false;
+   echo $fecha=$_POST['fecha'];
    if(isset($_POST['origen']) && isset($_POST['destino']) && isset($_POST['fecha']) && isset($_POST['precio']) && isset($_POST['id'])){
      $origen = $_POST['origen']; 
      if(validarOrigen($origen)){
@@ -108,7 +109,7 @@ function validarPrecio($precio){
                    }
                    else{
                        $_SESSION['ModViaNotOk'] =true;
-                     header("Location:ModVia.php"); 
+                     header("Location:ModVia.php?idviajeget=$idviaje"); 
                    }
                                
    }}}}}}}}}

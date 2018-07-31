@@ -83,7 +83,8 @@
 			</div>
 			<div class="form-group">
 				<label for="texto3" ><h5>Fecha</h5></label>
-				<input type="date" class="form-control" id="texto3" name="fecha" placeholder="Ingresá la fecha en la que viajas" value="<?php echo $registro['fecha'] ?>">
+                                <p><?php echo $registro['fecha'] ?></p>
+				<input type="hidden" class="form-control" id="texto3" name="fecha" placeholder="Ingresá la fecha en la que viajas" value="<?php echo $registro['fecha'] ?>">
 			</div>
 				<div class="form-group">
 				<label for="texto4" ><h5>Hora de salida</h5></label>
@@ -173,7 +174,7 @@
               echo "<script>
                alert('$message') 
                </script>";
-              unset($_SESSION['ModViaOk']);
+              unset($_SESSION['ModViaNotOk']);
            }
            if(isset($_SESSION['viajeImpo'])){
               $message="El viaje no puede realizarse en la misma fecha y hora que otro";

@@ -83,8 +83,8 @@
           if($resultadoConsultaPi=mysqli_query($conexion,$consultaPiloto)){
           	while($registroPilo=mysqli_fetch_array($resultadoConsultaPi)){
                     $idAuto=$registroPilo['id'];
-                    $consulta="SELECT * FROM viajes WHERE auto_id= '$idAuto' AND borrado='0'";
-                    $consulta2="SELECT * FROM viajes WHERE auto_id= '$idAuto' AND borrado='0'";
+                    $consulta="SELECT * FROM viajes WHERE auto_id= '$idAuto' AND borrado='0' ORDER BY fecha DESC";
+                    $consulta2="SELECT * FROM viajes WHERE auto_id= '$idAuto' AND borrado='0' ORDER BY fecha DESC";
                     $resultadoConsulta=mysqli_query($conexion,$consulta);
                     $resultadoConsulta2=mysqli_query($conexion,$consulta2);
                     $registro2=mysqli_fetch_array($resultadoConsulta2);
