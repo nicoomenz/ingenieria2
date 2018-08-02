@@ -133,8 +133,102 @@
                  echo "<h5>No posee ningun vehículo registrado</h5>";
              }	
              ?>
+                        
+                 <?php //30 dias
+                    
+                    
+                    //$consulta10= "SELECT * FROM viajes WHERE auto_id = '$autoid10' AND borrado = '0' AND fecha < '$hoy' AND id_viaje IN (SELECT id_votacion FROM votaciones WHERE patente = '$autop10' AND piloto_copiloto = '1')";
+                    //if($registroConsulta10=mysqli_query($conexion,$consulta10)){
+                        
+                    //}
+                    //else{
+                       // $consulta11="SELECT " FECHAVIAJE+30 = IF NO PUEDE VOTAR
+                    //}
+                 
+                   
+                    //para piloto
+                   $autoid10 = $registro8['id'];
+                   $autop10=$registro8['Patente'];
+                   $hoy2= date("Y-m-d");// SI EL ID DEL VIAJE NO ESTA EN VOTACIONES NO VOTO!
+                   $ok2=false; 
+                   $email202 = $_SESSION['email'];
+                   $hoy2= date("Y-m-d");
+                   $consulta202 = "SELECT id_viaje FROM viajes WHERE auto_id = '$autoid10' AND borrado = '0' AND id_viaje NOT IN (SELECT id_viaje FROM votaciones WHERE patente = '$autop10' AND piloto_copiloto = '1')"; 
+                   if($registroConsulta202=mysqli_query($conexion,$consulta202)){
+                       
+                       while (($registro202=mysqli_fetch_array($registroConsulta202)) and ($ok2==false)){
+                           $v2=$registro20['id_viaje'];
+                           $consulta212="SELECT * FROM viajes WHERE id_viaje = '$v'";
+                           if($registroConsulta212=mysqli_query($conexion,$consulta212)){
+                               $registro212=mysqli_fetch_array($registroConsulta212);
+                               $fechaViaje2=$registro212['fecha'];                                
+                               $fecha30dias2=date( 'Y-m-d',strtotime($fechaViaje2. ' + 30 days'));
+                               if($fecha30dias2<$hoy2){
+                                   $ok2=true;
+                                   $idFaltaVoto2=$registro212['id_viaje'];
+                               }
+                           }
+                       }
+                        
+                    }
+                    
+                 
+                    
+                    
+                    
+                    
+                   //para copiloto
+                   $ok=false; 
+                   $email20 = $_SESSION['email'];
+                   $hoy= date("Y-m-d");
+                   $consulta20 = "SELECT id_viaje FROM misviajes_copiloto WHERE estado = 'aceptado' AND Email_copiloto = '$email20' AND id_viaje NOT IN (SELECT id_viaje FROM votaciones WHERE Email_copiloto = '$email20' AND piloto_copiloto = 0)"; 
+                   if($registroConsulta20=mysqli_query($conexion,$consulta20)){
+                       
+                       while (($registro20=mysqli_fetch_array($registroConsulta20)) and ($ok==false)){
+                           $v=$registro20['id_viaje'];
+                           $consulta21="SELECT * FROM viajes WHERE id_viaje = '$v'";
+                           if($registroConsulta21=mysqli_query($conexion,$consulta21)){
+                               $registro21=mysqli_fetch_array($registroConsulta21);
+                               $fechaViaje=$registro21['fecha'];                                
+                               $fecha30dias=date( 'Y-m-d',strtotime($fechaViaje. ' + 30 days'));
+                               if($fecha30dias<$hoy){
+                                   $ok=true;
+                                   $idFaltaVoto=$registro21['id_viaje'];
+                               }
+                           }
+                       }
+                        
+                    }
+                    
+                
+                
+                
+                ?>
+               
+                        
 			</div>
-			<button type="submit"  value="submit" class="btn btn-primary">Registrar </button>
+                        <?php
+                            if(($ok==false) and ($ok2==false)){
+                                echo 
+                                    "
+                                    <form  method='post' action='AltaViaje.php'>
+                                    <button  type='submit' value='submit' class='btn btn-primary' > Registrar </button>
+                                    </form>
+                                    ";
+                                
+                            }
+                            else{
+                                echo 
+                                    "
+                                    <form  method='post' action='AltaViaje.php'>
+                                    <button disabled='true' type='submit' value='submit' class='btn btn-primary' > Registrar </button>
+                                    Adeuda votaciones de viajes hace mas de 30 dias
+                                    </form> 
+                                    ";
+                            }
+                              
+                              
+                        ?>
 		</form>
 
 		<br>
@@ -151,7 +245,7 @@
               echo "<script>
                alert('$message') 
                </script>";
-              unset($_SESSION['fecahOk']);
+              unset($_SESSION['fechaOk']);
            }
            if(isset($_SESSION['horaOk'])){
               $message="Ingrese una hora";
@@ -174,26 +268,89 @@
                </script>";
               unset($_SESSION['noEntro']);
            }
-            if(isset($_SESSION['viajeImpo'])){
-              $message="El viaje no puede realizarse en la misma fecha y hora que otro";
+            if(isset($_SESSION['viajeImpo1'])){
+              $message="La hora de salida y la hora de llegada estan en la misma hora que otro viaje";
               echo "<script>
                alert('$message') 
                </script>";
-              unset($_SESSION['viajeImpo']);
+              unset($_SESSION['viajeImpo1']);
            }
-            if(isset($_SESSION['viajeImpoSemanal'])){
-              $message="El viaje no puede realizarse, porque ya tenes viajes creados dentro de las proximas semanas a este horario";
+           if(isset($_SESSION['viajeImpo2'])){
+              $message="La hora de salida es correcta, pero la de llegada intercepta con otro viaje";
               echo "<script>
                alert('$message') 
                </script>";
-              unset($_SESSION['viajeImpoSemanal']);
+              unset($_SESSION['viajeImpo2']);
            }
-           if(isset($_SESSION['viajeImpoDiario'])){
-              $message="El viaje no puede realizarse, porque ya tenes viajes creados dentro de los proximos dias a ese horario";
+           if(isset($_SESSION['viajeImpo3'])){
+              $message="La hora de salida intercepta con otro viaje";
               echo "<script>
                alert('$message') 
                </script>";
-              unset($_SESSION['viajeImpoDiario']);
+              unset($_SESSION['viajeImpo3']);
+           }
+           if(isset($_SESSION['viajeImpo4'])){
+              $message="Hay un viaje entre esos 2 horarios";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['viajeImpo4']);
+           }
+            if(isset($_SESSION['viajeImpoSemanal1'])){
+              $message="La hora de salida y la hora de llegada estan en la misma hora que otro viaje y ya tenes viajes creados dentro de las proximas semanas a este horario";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['viajeImpoSemanal1']);
+           }
+           if(isset($_SESSION['viajeImpoSemanal2'])){
+              $message="La hora de salida es correcta, pero la de llegada intercepta con otro viaje y ya tenes viajes creados dentro de las proximas semanas a este horario";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['viajeImpoSemanal2']);
+           }
+           if(isset($_SESSION['viajeImpoSemanal3'])){
+              $message="La hora de salida intercepta con otro viaje y ya tenes viajes creados dentro de las proximas semanas a este horario";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['viajeImpoSemanal3']);
+           }
+           if(isset($_SESSION['viajeImpoSemanal4'])){
+              $message="hay un viaje entre esos 2 horarios y ya tenes viajes creados dentro de las proximas semanas a este horario";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['viajeImpoSemanal4']);
+           }
+           if(isset($_SESSION['viajeImpoDiario1'])){
+              $message="1 El viaje no puede realizarse, porque ya tenes viajes creados dentro de los proximos dias a ese horario";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['viajeImpoDiario1']);
+           }
+           if(isset($_SESSION['viajeImpoDiario2'])){
+              $message="2 El viaje no puede realizarse, porque ya tenes viajes creados dentro de los proximos dias a ese horario";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['viajeImpoDiario2']);
+           }
+           if(isset($_SESSION['viajeImpoDiario3'])){
+              $message="3 El viaje no puede realizarse, porque ya tenes viajes creados dentro de los proximos dias a ese horario";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['viajeImpoDiario3']);
+           }
+           if(isset($_SESSION['viajeImpoDiario4'])){
+              $message="4 El viaje no puede realizarse, porque ya tenes viajes creados dentro de los proximos dias a ese horario";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['viajeImpoDiario4']);
            }
         ?> 
         <script type="text/javascript">

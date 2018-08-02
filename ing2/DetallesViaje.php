@@ -59,6 +59,69 @@
             <br>
             <div class="contenido">
                 <?php
+                    include("conexion.php");
+             $aut_mail=$_SESSION['email']; 
+             $consulta2="SELECT * FROM  vehiculos WHERE Email_id='$aut_mail'AND borrado='0' ";
+             $consulta8="SELECT * FROM  vehiculos WHERE Email_id='$aut_mail'AND borrado='0' ";
+             if($resultadoConsulta2=mysqli_query($conexion,$consulta2)){
+               $resultadoConsulta8=mysqli_query($conexion,$consulta8);
+               if($registro8=mysqli_fetch_row($resultadoConsulta8) >'1'){
+               }
+               }
+                   echo $autoid10 = $registro8['id'];
+                   echo $autop10=$registro8['Patente'];
+                   $hoy2= date("Y-m-d");// SI EL ID DEL VIAJE NO ESTA EN VOTACIONES NO VOTO!
+                   $okkkk2=false; 
+                   $email202 = $_SESSION['email'];
+                   $hoy2= date("Y-m-d");
+                   $consulta202 = "SELECT id_viaje FROM viajes WHERE auto_id = '$autoid10' AND borrado = '0' AND id_viaje NOT IN (SELECT id_viaje FROM votaciones WHERE patente = '$autop10' AND piloto_copiloto = '1')"; 
+                   if($registroConsulta202=mysqli_query($conexion,$consulta202)){
+                       
+                       while (($registro202=mysqli_fetch_array($registroConsulta202)) and ($okkkk2==false)){
+                           $v2=$registro20['id_viaje'];
+                           $consulta212="SELECT * FROM viajes WHERE id_viaje = '$v'";
+                           if($registroConsulta212=mysqli_query($conexion,$consulta212)){
+                               $registro212=mysqli_fetch_array($registroConsulta212);
+                               $fechaViaje2=$registro212['fecha'];                                
+                               $fecha30dias2=date( 'Y-m-d',strtotime($fechaViaje2. ' + 30 days'));
+                               if($fecha30dias2<$hoy2){
+                                   $okkkk2=true;
+                                   $idFaltaVoto2=$registro212['id_viaje'];
+                               }
+                           }
+                       }
+                        
+                    }
+                    
+                 
+                    
+                    
+                    
+                    
+                   //para copiloto
+                   $okkkk=false; 
+                   $email20 = $_SESSION['email'];
+                   $hoy= date("Y-m-d");
+                   $consulta20 = "SELECT id_viaje FROM misviajes_copiloto WHERE estado = 'aceptado' AND Email_copiloto = '$email20' AND id_viaje NOT IN (SELECT id_viaje FROM votaciones WHERE Email_copiloto = '$email20' AND piloto_copiloto = 0)"; 
+                   if($registroConsulta20=mysqli_query($conexion,$consulta20)){
+                       
+                       while (($registro20=mysqli_fetch_array($registroConsulta20)) and ($okkkk==false)){
+                           $v=$registro20['id_viaje'];
+                           $consulta21="SELECT * FROM viajes WHERE id_viaje = '$v'";
+                           if($registroConsulta21=mysqli_query($conexion,$consulta21)){
+                               $registro21=mysqli_fetch_array($registroConsulta21);
+                               $fechaViaje=$registro21['fecha'];                                
+                               $fecha30dias=date( 'Y-m-d',strtotime($fechaViaje. ' + 30 days'));
+                               if($fecha30dias<$hoy){
+                                   $okkkk=true;
+                                   $idFaltaVoto=$registro21['id_viaje'];
+                               }
+                           }
+                       }
+                        
+                    }
+                ?>
+                <?php
                    
                     $viaje=$_POST['id'];
                     $consulta4="SELECT * FROM viajes WHERE id_viaje = '$viaje'";
@@ -86,6 +149,20 @@
                         echo '<img class="avatarPerfil" src="data:image/jpeg;base64,'.base64_encode($row['Foto']).'" />';       
             ?>
                 <?php
+                    if(isset($_GET['idviajeget'])){
+                            $viaje=$_GET['idviajeget'];
+                    }
+                    else{
+                            if(isset($_POST['id'])){
+                                $viaje=$_POST['id'];
+                            }
+                    }
+                    $consulta="SELECT fecha FROM viajes WHERE id_viaje = '$viaje'";
+                    if($resultadoConsulta=mysqli_query($conexion,$consulta)){
+                        $hoy= date("Y-m-d");
+                        $registro=mysqli_fetch_row($resultadoConsulta);
+                        $fechaV = $registro[0];                   
+                    }
                     //boton de ver perfil del dueño del viaje, si y solo si el usuario copiloto esta aceptado
                     $EmailAct = $_SESSION['email'];
                     $consulta99 = "SELECT * FROM misviajes_copiloto WHERE id_viaje = '$viaje' AND Email_copiloto = '$EmailAct' ";
@@ -102,7 +179,7 @@
                         <input type='hidden' name='usuarioEmail' value='".$registro6['Email_id']."'>
                         <button style='margin-left:100px' type='submit' value='submit' class='btn btn-primary' > perfil piloto </button>
                     </form>";
-                    if ($pag === '1'){
+                    if (($pag === '1') and ($fechaV<$hoy)){
                         echo " <br>
                             <form  method='post' action='VotarPiloto.php'>
                                 <input type='hidden' name='idViaje' value='".$viaje."'>
@@ -111,13 +188,25 @@
                             ";
                     }
                     else {
-                            echo "<br>
+                            if(($fechaV>$hoy)){
+                                echo "<br>
                             <form  method='post' action='VotarPiloto.php'>
                                 <input type='hidden' name='idViaje' value='".$viaje."'>
                                 <button disabled='true' style='margin-left:100px' type='submit' value='submit' class='btn btn-primary' > votar piloto </button>
                             </form>
-                            <p>Debe pagar el viaje para votar</p>
+                            <p>El viaje aun esta vigente</p>
                             ";
+                            }
+                            else{
+                                echo "<br>
+                            <form  method='post' action='VotarPiloto.php'>
+                                <input type='hidden' name='idViaje' value='".$viaje."'>
+                                <button disabled='true' style='margin-left:100px' type='submit' value='submit' class='btn btn-primary' > votar piloto </button>
+                            </form>
+                            <p>El viaje ya termino, pero debe pagar el viaje para votar</p>
+                            ";
+                            }
+                            
                         
                     }
                     }
@@ -131,15 +220,7 @@
                 <br>
                 <?php
                     //datos del viaje
-                    include("conexion.php");
-                    if(isset($_GET['idviajeget'])){
-                            $viaje=$_GET['idviajeget'];
-                    }
-                    else{
-                            if(isset($_POST['id'])){
-                                $viaje=$_POST['id'];
-                            }
-                    }
+                    
                     
                     $consulta="SELECT * FROM viajes WHERE id_viaje = '$viaje'";
                     $consulta2="SELECT * FROM viajes WHERE id_viaje = '$viaje'";
@@ -246,13 +327,23 @@
                   }
           }
      }      
-            if (($asientosDispo>0) AND ($est === '0')){
+            if (($asientosDispo>0) and ($est === '0') and ($okkkk==false) and ($okkkk2==false) ){
             echo"
                 <form  method='post' action='postularse.php'>
                     <input type='hidden' name='id' value='".$registro['id_viaje']."'>
                     <button type='submit' value='submit' class='btn btn-sm btn-primary btn-block' >Postularse </button>
                 </form>
             ";
+            }
+            else{
+                echo"
+                <form  method='post' action='postularse.php'>
+                    <input type='hidden' name='id' value='".$registro['id_viaje']."'>
+                    <button disabled='true' type='submit' value='submit' class='btn btn-sm btn-primary btn-block' >Postularse </button>
+                </form>
+                Adeuda votaciones de viajes hace mas de 30 dias.
+            ";
+                
             }
                   
                ?>
@@ -288,16 +379,13 @@
                                     </form>
                                     <br><br>";
                                     if($postAcep === '0'){ echo"
-                                    <form  method='post' action='ModVia.php'>
-                                        <input type='hidden' name='id' value='".$registro['id_viaje']."'>
-                                        <button type='submit' value='submit' class='btn btn-sm btn-primary btn-block'>Modificar viaje</button>
-                                    </form></div>";
+                                    <td><a class='btn btn-sm btn-primary btn-block' href='ModVia.php?idviajeget=".$registro['id_viaje']."'>Modificar viaje</a></td></div>";
                                     }
                                     else{ echo "
                                         <form  method='post' action='ModVia.php'>
                                             <input type='hidden' name='id' value='".$registro['id_viaje']."'>
                                             <button disabled='true' type='submit' value='submit' class='btn btn-sm btn-primary btn-block'>Modificar viaje</button>
-                                        </form>
+                                        </form>                      
                                         <p>Hay usuarios postulados</p></div>";
                                         
                                     }
@@ -417,7 +505,7 @@
                                  </form>"; 
                        }
                   } 
-        } echo"</div>"
+        } echo"</div>";
         ?>
             
             <script type="text/javascript"> 

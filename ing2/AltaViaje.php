@@ -138,24 +138,159 @@ else{
                    $resultquery1=mysqli_query($conexion,$query1);
                    $registro1=mysqli_fetch_row($resultquery1);
                    $horaBD=$registro1['0'];
+                   $horaBD;
                    $query2="SELECT horaLlegada FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto'";
                    $resultquery2=mysqli_query($conexion,$query2);
                    $registro2=mysqli_fetch_row($resultquery2);
                    $horaLlegadaBD=$registro2['0'];
-                   if(($hora>$horaBD) and ($hora<$horaLlegadaBD)){
-                       $_SESSION['viajeImpo'] =true; 
-                        header("Location:publicarViaje.php");
-                   }
-                   else{
-                      $resultado12 = mysqli_query($conexion ,"INSERT INTO viajes ( auto_id,hora,horaLlegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')") ;
-                     if($resultado12){
-                       $_SESSION['regViaOk'] =true;
-                       header("Location:publicarViaje.php"); 
-                     }
-                   }
+                   if(($hora<$horaBD) and ($horaLlegada<$horaBD)){
+                                $resultado12 = mysqli_query($conexion ,"INSERT INTO viajes ( auto_id,hora,horaLlegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')") ;
+                                if($resultado12){
+                                    $_SESSION['regViaOk'] =true;
+                                    header("Location:publicarViaje.php"); 
+                                }
+                        }
+                            else {
+                                    if(($hora>$horaLlegadaBD) and ($horaLlegada>$horaLlegadaBD)){
+                                            $resultado12 = mysqli_query($conexion ,"INSERT INTO viajes ( auto_id,hora,horaLlegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')") ;
+                                            if($resultado12){
+                                                $_SESSION['regViaOk'] =true;
+                                                header("Location:publicarViaje.php"); 
+                                            }
+                                        }                                    
+                                    else{
+                                            if(($hora>$horaBD) and ($horaLlegada<$horaLlegadaBD)){ //la hora beetwen
+                                                $_SESSION['viajeImpo1'] =true; 
+                                                header("Location:publicarViaje.php");
+                                            }
+                                            else{
+                                                if(($hora<$horaBD) and ($horaLlegada<$horaLlegadaBD)){ //la hora de salida esta bien pero la de llegada esta mal
+                                                        $_SESSION['viajeImpo2'] =true; 
+                                                        header("Location:publicarViaje.php");
+                                                }
+                                                else{
+                                                    if(($hora>$horaBD) and ($horaLlegada>$horaLlegadaBD) and ($horaBD != null)){ //la hora de salida esta mal
+                                                        $_SESSION['viajeImpo3'] =true; 
+                                                        header("Location:publicarViaje.php");
+                                                    }
+                                                    else{
+                                                        if(($horaBD>$hora) and ($horaBD<$horaLlegada)) { //la hora de salida esta mal
+                                                            $_SESSION['viajeImpo4'] =true; 
+                                                            header("Location:publicarViaje.php");
+                                                        }
+                                                        else{
+                                                            $resultado12 = mysqli_query($conexion ,"INSERT INTO viajes ( auto_id,hora,horaLlegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')") ;
+                                                            if($resultado12){
+                                                                $_SESSION['regViaOk'] =true;
+                                                                header("Location:publicarViaje.php"); 
+                                                            }
+                                                        }
+                                                    
+                                                        
+                                                        }
+                                                    
+                                            }
+                                    }                                
+                            }
+                        }
                  }
                   else{
                     if($fecha == $f2){   
+                        $query1="SELECT hora FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto'";
+                        $resultquery1=mysqli_query($conexion,$query1);
+                        $registro1=mysqli_fetch_row($resultquery1);
+                        echo $horaBD=$registro1['0'];
+                        $query2="SELECT horaLlegada FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto'";
+                        $resultquery2=mysqli_query($conexion,$query2);
+                        $registro2=mysqli_fetch_row($resultquery2);
+                        $horaLlegadaBD=$registro2['0'];
+                        if(($hora<$horaBD) and ($horaLlegada<$horaBD)){
+                                $fecha_act=$fecha;
+                                $query="SELECT * FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto' AND hora BETWEEN '$hora' AND '$horaLlegada'";
+                                $resultquery=mysqli_query($conexion,$query);
+                                $registro=mysqli_fetch_row($resultquery);                                
+                                if(empty($registro['0'])){
+                                    $registro=mysqli_fetch_row($resultquery);
+                                    for ($i =1; $i<=$cant_sem; $i++){
+                                        $resultado12 = mysqli_query($conexion , "INSERT INTO viajes ( auto_id,hora,horaLlegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')");
+                                        $fecha=date( 'Y-m-d',strtotime($fecha. ' + 7 days'));
+                                    }
+                                    $_SESSION['regViaOk'] =true;
+                                    header("Location:publicarViaje.php");
+                                }
+                        }
+                            else {
+                                    if(($hora>$horaLlegadaBD) and ($horaLlegada>$horaLlegadaBD)){
+                                        
+                                        $fecha_act=$fecha;
+                                        $query="SELECT * FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto' AND hora BETWEEN '$hora' AND '$horaLlegada'";
+                                        $resultquery=mysqli_query($conexion,$query);
+                                        $registro=mysqli_fetch_row($resultquery);
+                                        echo var_dump($registro['0']);
+                                        if(empty($registro['0'])){
+                                            echo "gola";
+                                            $registro=mysqli_fetch_row($resultquery);
+                                            for ($i =1; $i<=$cant_sem; $i++){
+                                                $resultado12 = mysqli_query($conexion , "INSERT INTO viajes ( auto_id,hora,horaLlegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')");
+                                                $fecha=date( 'Y-m-d',strtotime($fecha. ' + 7 days'));
+                                              }
+                                            $_SESSION['regViaOk'] =true;
+                                            header("Location:publicarViaje.php");
+                                        }
+                                    }
+                                    else{
+                                            if(($hora>$horaBD) and ($horaLlegada<$horaLlegadaBD)){ //la hora beetwen
+                                                 
+                                                $_SESSION['viajeImpoSemanal1'] =true; 
+                                                header("Location:publicarViaje.php");
+                                            }
+                                            else{
+                                                if(($hora<$horaBD) and ($horaLlegada<$horaLlegadaBD)){ //la hora de salida esta bien pero la de llegada esta mal
+                                                   
+                                                    $_SESSION['viajeImpoSemanal2'] =true; 
+                                                        header("Location:publicarViaje.php");
+                                                }
+                                                else{
+                                                    if(($hora>$horaBD) and ($horaLlegada>$horaLlegadaBD)){ //la hora de salida esta mal
+                                                        
+                                                        $_SESSION['viajeImpoSemanal3'] =true; 
+                                                        header("Location:publicarViaje.php");
+                                                    }
+                                                    else{
+                                                        if(($horaBD>$hora) and ($horaBD<$horaLlegada)){ //la hora de salida esta mal
+                                                            echo "hola6";
+                                                            $_SESSION['viajeImpoSemanal4'] =true; 
+                                                            header("Location:publicarViaje.php");
+                                                        }
+                                                        else{
+                                                            
+                                                            $fecha_act=$fecha;
+                                                            $query="SELECT * FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto' AND hora BETWEEN '$hora' AND '$horaLlegada'";
+                                                            $resultquery=mysqli_query($conexion,$query);
+                                                            $registro=mysqli_fetch_row($resultquery);
+                                                            if(empty($registro['0'])){
+                                                                $registro=mysqli_fetch_row($resultquery);
+                                                                for ($i =1; $i<=$cant_sem; $i++){
+                                                                    $resultado12 = mysqli_query($conexion , "INSERT INTO viajes ( auto_id,hora,horaLlegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')");
+                                                                    $fecha=date( 'Y-m-d',strtotime($fecha. ' + 7 days'));
+                                                                }
+                                                                $_SESSION['regViaOk'] =true;
+                                                                header("Location:publicarViaje.php");
+                                                            }
+                                                        }
+                                                        
+                                                    }
+                                                    
+                                                        
+                                                    
+                                            }
+                                    }                                
+                            }
+                        }
+                    
+                    }
+                  else{
+                    if($fecha=$f3){
                         $query1="SELECT hora FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto'";
                         $resultquery1=mysqli_query($conexion,$query1);
                         $registro1=mysqli_fetch_row($resultquery1);
@@ -165,56 +300,82 @@ else{
                         $registro2=mysqli_fetch_row($resultquery2);
                         $horaLlegadaBD=$registro2['0'];
                         
-                        if(($hora>$horaBD) and ($hora<$horaLlegadaBD)){
-                            $_SESSION['viajeImpoSemanal'] =true; 
-                            header("Location:publicarViaje.php");
+                        if(($hora<$horaBD) and ($horaLlegada<$horaBD) and ($horaBD != null)){
+                                
+                                $fecha_act=$fecha;
+                                $query="SELECT * FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto' AND hora BETWEEN '$hora' AND '$horaLlegada'";
+                                $resultquery=mysqli_query($conexion,$query);
+                                $registro=mysqli_fetch_row($resultquery);
+                                if(empty($registro['0'])){
+                                    for($i =1; $i<=$cDias; $i++){
+                                        $resultado12 = mysqli_query($conexion , "INSERT INTO viajes ( auto_id,hora,horaLLegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')");
+                                        $fecha=date( 'Y-m-d',strtotime($fecha. ' + 1 days'));
+                                    }   
+                                    $_SESSION['regViaOk'] =true;
+                                    header("Location:publicarViaje.php"); 
+                                }
                         }
-                        else{
-                            $fecha_act=$fecha;
-                            $query="SELECT * FROM viajes WHERE fecha='$fecha' AND hora BETWEEN '$hora' AND '$horaLlegada'";
-                            $resultquery=mysqli_query($conexion,$query);
-                            $registro=mysqli_fetch_row($resultquery);
-                            if(empty($registro['0'])){
-                              $registro=mysqli_fetch_row($resultquery);
-                              for ($i =1; $i<=$cant_sem; $i++){
-                                $resultado12 = mysqli_query($conexion , "INSERT INTO viajes ( auto_id,hora,horaLlegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')");
-                                $fecha=date( 'Y-m-d',strtotime($fecha. ' + 7 days'));
-
-                              }
-                              $_SESSION['regViaOk'] =true;
-                              header("Location:publicarViaje.php");
+                            else {
+                                    if(($hora>$horaLlegadaBD) and ($horaLlegada>$horaLlegadaBD) and ($horaBD != null)){
+                                            
+                                            $fecha_act=$fecha;
+                                            $query="SELECT * FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto' AND hora BETWEEN '$hora' AND '$horaLlegada'";
+                                            $resultquery=mysqli_query($conexion,$query);
+                                            $registro=mysqli_fetch_row($resultquery);
+                                            if(empty($registro['0'])){
+                                            for($i =1; $i<=$cDias; $i++){
+                                                $resultado12 = mysqli_query($conexion , "INSERT INTO viajes ( auto_id,hora,horaLLegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')");
+                                                $fecha=date( 'Y-m-d',strtotime($fecha. ' + 1 days'));
+                                            }   
+                                            $_SESSION['regViaOk'] =true;
+                                            header("Location:publicarViaje.php"); 
+                                    }
+                                        }                                    
+                                    else{
+                                            if(($hora>$horaBD) and ($horaLlegada<$horaLlegadaBD) and ($horaBD != null)){ //la hora beetwen
+                                              
+                                                $_SESSION['viajeImpoDiario1'] =true; 
+                                                header("Location:publicarViaje.php");
+                                            }
+                                            else{
+                                                if(($hora<$horaBD) and ($horaLlegada<$horaLlegadaBD) and ($horaBD != null)){ //la hora de salida esta bien pero la de llegada esta mal
+                                                        
+                                                        $_SESSION['viajeImpoDiario2'] =true; 
+                                                        header("Location:publicarViaje.php");
+                                                }
+                                                else{
+                                                    if(($hora>$horaBD) and ($horaLlegada>$horaLlegadaBD) and ($horaBD != null)){ //la hora de salida esta mal
+                                                       
+                                                        $_SESSION['viajeImpoDiario3'] =true; 
+                                                        header("Location:publicarViaje.php");
+                                                    }
+                                                    else{
+                                                        if(($horaBD>$hora) and ($horaBD<$horaLlegada)) { //la hora de salida esta mal
+                                                            
+                                                            $_SESSION['viajeImpoDiario4'] =true; 
+                                                            header("Location:publicarViaje.php");
+                                                        }
+                                                        else{
+                                                            echo $fecha_act=$fecha;
+                                                            $query="SELECT * FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto' AND hora BETWEEN '$hora' AND '$horaLlegada'";
+                                                            $resultquery=mysqli_query($conexion,$query);
+                                                            $registro=mysqli_fetch_row($resultquery);
+                                                            if(empty($registro['0'])){
+                                                              echo "if";
+                                                              for($i =1; $i<=$cDias; $i++){
+                                                                echo "for";
+                                                                $resultado12 = mysqli_query($conexion , "INSERT INTO viajes ( auto_id,hora,horaLLegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')");
+                                                                $fecha=date( 'Y-m-d',strtotime($fecha. ' + 1 days'));
+                                                              }   
+                                                              $_SESSION['regViaOk'] =true;
+                                                              header("Location:publicarViaje.php"); 
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                    }                                
                             }
-                        }
-                    }
-                  else{
-                    if($fecha=$f3){
-                      $query1="SELECT hora FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto'";
-                        $resultquery1=mysqli_query($conexion,$query1);
-                        $registro1=mysqli_fetch_row($resultquery1);
-                        $horaBD=$registro1['0'];
-                        $query2="SELECT horaLlegada FROM viajes WHERE fecha='$fecha' AND auto_id='$id_auto'";
-                        $resultquery2=mysqli_query($conexion,$query2);
-                        $registro2=mysqli_fetch_row($resultquery2);
-                        $horaLlegadaBD=$registro2['0'];
-                        
-                        if(($hora>$horaBD) and ($hora<$horaLlegadaBD)){
-                            $_SESSION['viajeImpoDiario'] =true; 
-                            header("Location:publicarViaje.php");
-                        }
-                        else{
-                      $fecha_act=$fecha;
-                      $query="SELECT * FROM viajes WHERE fecha='$fecha' AND hora BETWEEN '$hora' AND '$horaLlegada'";
-                      $resultquery=mysqli_query($conexion,$query);
-                      $registro=mysqli_fetch_row($resultquery);
-                      if(empty($registro['0'])){
-                        for($i =1; $i<=$cDias; $i++){
-                          $resultado12 = mysqli_query($conexion , "INSERT INTO viajes ( auto_id,hora,horaLLegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')");
-                          $fecha=date( 'Y-m-d',strtotime($fecha. ' + 1 days'));
-                        }   
-                        $_SESSION['regViaOk'] =true;
-                        header("Location:publicarViaje.php"); 
-                      }
-                    }
                     }
                 }
                    

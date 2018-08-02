@@ -28,7 +28,9 @@ include ("conexion.php");
                    }
                    $emailPi = $_SESSION['email'];
                    $patente = $registro2['Patente'];
-                   $resultado = $conexion -> query("INSERT INTO votaciones(Email_piloto,Email_copiloto,patente,calificacion,comentario,id_viaje) VALUES ('$emailPi', '$emailCo' , '$patente', '$puntaje', '$comentario', '$idviaje')");
+                   $piloto_cop='1';
+                   $resultado = mysqli_query($conexion, "INSERT INTO votaciones(Email_piloto,piloto_copiloto,Email_copiloto,patente,calificacion,comentario,id_viaje) VALUES ('$emailPi', '$piloto_cop', '$emailCo' , '$patente', '$puntaje', '$comentario', '$idviaje')");
+                   
                    if ($resultado)
                    {
                        $_SESSION['votexitosa'] = false;

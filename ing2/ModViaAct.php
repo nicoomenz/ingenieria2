@@ -11,7 +11,7 @@ function validarOrigen($origen){
   $origenNue= trim($origen);
   if($origenNue == null||$origenNue == "" ){
     $_SESSION['origenOk'] =true;
-      header("Location:ModVia.php");
+      header("Location:ModVia.php?idviajeget=$idviaje");
     return false;
   }
   return true;
@@ -21,7 +21,7 @@ function validarOrigen($origen){
    $destino= trim($destino);
    if($destino == null||$destino == "" ){
      $_SESSION['destinoOk'] =true;
-      header("Location:ModVia.php");
+      header("Location:ModVia.php?idviajeget=$idviaje");
      return false;
    }
    return true;
@@ -31,14 +31,14 @@ function validarFecha($fecha){
   $fecha2= trim($fecha);
   if($fecha2 == null||$fecha2 == "" ){
     $_SESSION['fechaOk'] =true;
-    header("Location:ModVia.php"); 
+    header("Location:ModVia.php?idviajeget=$idviaje"); 
     return false;
   }
   else{
     $hoy= date("Y-m-d");
     if($hoy>$fecha){
       $_SESSION['fechaMayOk'] =true;
-      header("Location:ModVia.php");
+      header("Location:ModVia.php?idviajeget=$idviaje");
       return false;    
     }
 
@@ -50,7 +50,7 @@ function validarFecha($fecha){
    $hora3= trim($hora);
    if($hora3 == null||$hora3 == "" ){
      $_SESSION['horaOk'] =true;
-      header("Location:ModVia.php");
+      header("Location:ModVia.php?idviajeget=$idviaje");
      return false;
    }
    return true;
@@ -60,7 +60,7 @@ function validarFecha($fecha){
    $hora4= trim($hora2);
    if($hora4 == null||$hora4 == "" ){
      $_SESSION['horaOk'] =true;
-      header("Location:ModVia.php");
+      header("Location:ModVia.php?idviajeget=$idviaje");
      return false;
    }
    return true;

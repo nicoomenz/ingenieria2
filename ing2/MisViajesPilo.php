@@ -87,17 +87,17 @@
                     $consulta2="SELECT * FROM viajes WHERE auto_id= '$idAuto' AND borrado='0' ORDER BY fecha DESC";
                     $resultadoConsulta=mysqli_query($conexion,$consulta);
                     $resultadoConsulta2=mysqli_query($conexion,$consulta2);
-                    $registro2=mysqli_fetch_array($resultadoConsulta2);
-                    $viaje=$registro2['id_viaje'];
-                    $consulta3="SELECT COUNT(id_viaje) FROM misviajes_copiloto WHERE id_viaje = '$viaje' AND estado='aceptado'";
-                    $resucon3=mysqli_query($conexion,$consulta3);
-                    $arreglo_prest=mysqli_fetch_array($resucon3);
-                    $aceptados=$arreglo_prest['0'];
-                    $consulta4="SELECT COUNT(id_viaje) FROM misviajes_copiloto WHERE id_viaje = '$viaje' AND estado='en espera'";
-                    $resucon4=mysqli_query($conexion,$consulta4);
-                    $arreglo_prest2=mysqli_fetch_array($resucon4);
-                    $postulados=$arreglo_prest2['0'];
-                    while($registro=mysqli_fetch_array($resultadoConsulta)){	
+                    while($registro=mysqli_fetch_array($resultadoConsulta)){
+                            $registro2=mysqli_fetch_array($resultadoConsulta2);
+                            $viaje=$registro2['id_viaje'];
+                            $consulta3="SELECT COUNT(id_viaje) FROM misviajes_copiloto WHERE id_viaje = '$viaje' AND estado='aceptado'";
+                            $resucon3=mysqli_query($conexion,$consulta3);
+                            $arreglo_prest=mysqli_fetch_array($resucon3);
+                            $aceptados=$arreglo_prest['0'];
+                            $consulta4="SELECT COUNT(id_viaje) FROM misviajes_copiloto WHERE id_viaje = '$viaje' AND estado='en espera'";
+                            $resucon4=mysqli_query($conexion,$consulta4);
+                            $arreglo_prest2=mysqli_fetch_array($resucon4);
+                            $postulados=$arreglo_prest2['0'];
                             $horaForm=date('g:ia', strtotime($registro['hora']));
                             if($registro['borrado'] === '0'){
 				echo"<tr>
@@ -114,6 +114,7 @@
                                         <button type='submit' value='submit' class='btn btn-primary'> Detalles </button>
                                     </form>
                                 </td>";
+                                
                                 if($aceptados=='0'){ 
                                     echo"
                                     <td>
@@ -173,6 +174,14 @@
                alert('$message') 
                </script>";
               unset($_SESSION['seBorro']);
+            }
+            
+            if(isset($_SESSION['votexitosa'])){
+              $message="Se voto al copiloto, exitosamente";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['votexitosa']);
             }
 
 

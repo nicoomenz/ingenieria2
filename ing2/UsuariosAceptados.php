@@ -62,7 +62,13 @@
 		  include("conexion.php");
 		  //ENVIAR ID DEL VIAJE, COMO ?
                   
-                  $viaje= $_POST['id'];                  
+                  $viaje= $_POST['id'];
+                  $consulta3="SELECT fecha FROM viajes WHERE id_viaje = '$viaje'";
+                  if($resultadoConsulta3=mysqli_query($conexion,$consulta3)){
+                        $hoy= date("Y-m-d");
+                        $registro=mysqli_fetch_row($resultadoConsulta3);
+                        $fechaV = $registro[0];                   
+                  }
 		  $consulta="SELECT * FROM misviajes_copiloto WHERE id_viaje = '$viaje' AND estado = 'aceptado'";
                   $consulta2="SELECT * FROM misviajes_copiloto WHERE id_viaje = '$viaje' AND estado = 'aceptado'";
           if($resultadoConsulta=mysqli_query($conexion,$consulta)){
@@ -98,14 +104,26 @@
                                                         <input type='hidden' name='usuarioEmail' value='".$registro['Email_copiloto']."'>
                                                         <button type='submit' value='submit' class='btn btn-primary'> perfil </button>
                                                     </form>
-                                                </td>
+                                                </td>";
+                                                if($fechaV<$hoy){ echo"
                                                 <td>
                                                     <form  method='post' action='VotarCopiloto.php'>
                                                         <input type='hidden' name='CopilotoEmail' value='".$registro['Email_copiloto']."'>
                                                         <input type='hidden' name='idViaje' value='".$viaje."'>
                                                         <button style='margin-left:100px' type='submit' value='submit' class='btn btn-primary' >votar</button>
                                                     </form>
-                                                </td>
+                                                </td>";
+                                                }
+                                                else{ echo " 
+                                                    <td>
+                                                    <form  method='post' action='VotarCopiloto.php'>
+                                                        <input type='hidden' name='CopilotoEmail' value='".$registro['Email_copiloto']."'>
+                                                        <input type='hidden' name='idViaje' value='".$viaje."'>
+                                                        <button disabled='true' style='margin-left:100px' type='submit' value='submit' class='btn btn-primary' >votar</button>
+                                                    </form> 
+                                                    </td>";                                               
+                                                }
+                                                echo "
                                             </tr>
                                                 ";
                                                 
@@ -116,7 +134,9 @@
                                                 }
 			 }
 			 echo"</table>";
-                         
+                         if($fechaV>$hoy){
+                            echo  "No puede votar porque el viaje aun esta vigente";
+                         }
                   }
                   else{
            	  echo "<label class='noPoseeVeh'><h3> No hay usuarios postulados.</h3></label>";
@@ -134,7 +154,7 @@
         
         <!--js boostrap -->
             
-            
+           
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
             <script src="js/bootstrap.min.js"></script>

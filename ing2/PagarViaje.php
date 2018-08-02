@@ -58,7 +58,7 @@
 		</header>
             <br>
   <?php
-    $viaje=$_POST['id'];
+    $viaje=$_GET['id_viaje'];
   ?>
   <div class="contenido">
     <div class="heading">
@@ -93,7 +93,7 @@
                 </select>
                 <select>
                     <option value="16"> 2019</option>
-                    <option value="17"> 2018</option>
+                    <option value="17"> 2020</option>
                     <option value="18"> 2021</option>
                     <option value="19"> 2022</option>
                     <option value="20"> 2023</option>

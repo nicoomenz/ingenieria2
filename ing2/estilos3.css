@@ -3,6 +3,12 @@
 
 }
 
+.btn-primary.disabled, .btn-primary:disabled {
+    color: #fff !IMPORTANT ; 
+    background-color: #ff4d4d !IMPORTANT;
+    border-color: #ff4d4d !IMPORTANT;
+}
+
 .container{/* la tabla*/
   padding:50px 10px 10px 10px !IMPORTANT;
 

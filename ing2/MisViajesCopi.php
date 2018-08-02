@@ -100,14 +100,9 @@
                                                             </form>
                                                           </td>";
                                                           if ($estadoCopi === 'aceptado'){
-                                                              echo "<td>
-                                                                        <form  method='post' action='PagarViaje.php'>
-                                                                            <input type='hidden' name='id' value='".$registro['id_viaje']."'>
-                                                                            <button type='submit' value='submit' class='btn btn-primary'> Pagar </button>
-                                                                        </form>
-                                                                    </td>
+                                                              echo "<td><a href='PagarViaje.php?id_viaje=".$registro['id_viaje']."'>Pagar viaje</a></td>
+                                                                  
                                                                   ";
-                                                              
                                                           }
                                                            echo "
                                                       </tr>
@@ -132,13 +127,29 @@
                     </script>";
                     unset($_SESSION['posdenegado']);
                 }
-            if(isset($_SESSION['usuarioEliminado'])){
+                if(isset($_SESSION['usuarioEliminado'])){
                    $message="¡Usted ha salido del viaje, y se le notifico al Piloto del mismo!";
                     echo "<script>
                         alert('$message') 
                     </script>";
                     unset($_SESSION['usuarioEliminado']);
                 }   
+            
+                if(isset($_SESSION['votexitosa'])){
+                    $message="Su voto fue registrado";
+                    echo "<script>
+                    alert('$message') 
+                    </script>";
+                    unset($_SESSION['votexitosa']);
+                }
+                
+                 if(isset($_SESSION['pregexitosa'])){
+                    $message="Se registro su pregunta";
+                    echo "<script>
+                    alert('$message') 
+                    </script>";
+                    unset($_SESSION['pregexitosa']);
+                }
 
 
 
@@ -168,13 +179,6 @@
          }
 		</script>
                                             <?php 
-                              if(isset($_SESSION['pregexitosa'])){
-                                     $message="¡Se publico su pregunta correctamente!";
-                    echo "<script>
-                        alert('$message') 
-                    </script>";
-                                     unset($_SESSION['pregexitosa']);
-                                    }
                                ?> 
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

@@ -181,7 +181,7 @@
                             </td>
                             <td>
                                 <?php 
-                                   $consulta3 = "SELECT SUM(calificacion) as total FROM votaciones WHERE Email_piloto = '$email'";
+                                   $consulta3 = "SELECT SUM(calificacion) as total FROM votaciones WHERE Email_piloto = '$email' AND piloto_copiloto = '0'";
                                    $resultado = $conexion -> query($consulta3);
                                    $row = $resultado -> fetch_assoc();
                                    if ($row["total"] < 0 || $row["total"] == null)
@@ -202,7 +202,7 @@
                             </td>
                             <td>
                                 <?php 
-                                   $consulta4 = "SELECT SUM(calificacion) as total FROM votaciones WHERE Email_copiloto = '$email'";
+                                   $consulta4 = "SELECT SUM(calificacion) as total FROM votaciones WHERE Email_copiloto = '$email' AND piloto_copiloto = '1'";
                                    $resultado2 = $conexion -> query($consulta4);
                                    $row2 = $resultado2 -> fetch_assoc();
                                    if ($row2["total"] < 0 || $row2["total"] == null)
@@ -221,6 +221,7 @@
                     <a class="btn btn-sm btn-primary btn-block" id="boton2" href="ModDatPerfil.php" >Modificar mis datos </a>
                 </div> 
         </div>    
+          
                             <?php 
                         echo" <form   method='post' action='BorrarUsuario.php' onsubmit='return confirmar();'>
                         <input type='hidden' name='email_usuario' value='".$email."'>
@@ -228,6 +229,79 @@
                         </button>
                         </form>";
                      ?>
+                                        
+      
+                    <?php
+            echo "
+            <div>
+            <label id='titulo3' style='margin-top:150px'>Votaciones recibidas como piloto</label>";
+            $consulta="SELECT * FROM votaciones WHERE Email_piloto = '$email' AND piloto_copiloto = 0";
+            $resultadoConsulta=mysqli_query($conexion,$consulta);
+            echo "<br>";
+            while($registro=mysqli_fetch_array($resultadoConsulta)){
+                    $comentario = $registro['comentario'];
+                    $emailcopi = $registro['Email_copiloto'];
+                    $res = mysqli_query($conexion,"SELECT * FROM usuarios WHERE Email = '$emailcopi'");
+                    $reg = $res -> fetch_assoc();
+                    $nombre = $reg['Nombre'];
+                    $apellido = $reg['Apellido'];   
+                    if ($reg['borrado'] == 0 and $reg['Foto'] != null)
+                    {
+                       $img = base64_encode($reg['Foto']);
+                    }
+                    else
+                    {
+                        
+                       $img = base64_encode(file_get_contents('icono_users.png'));
+                    }
+                    $puntuacion = $registro['calificacion'];
+                    if ($comentario != '')
+                    {
+                    echo "
+                       <img style='vertical-align: middle; width: 90px; height: 90px; border-radius: 50%; border-style: double; margin-left: 110px; margin-bottom: 10px;' src='data:image/jpeg;base64,$img'/>
+                       <label style='text-align: center; overflow: hidden; margin-left: 66px; margin-top: 10px; font-size: 100%; width: 170px; height: 50px; border-color: #000000; border-style: double; background-color: #ff4d4d'> $nombre $apellido </label>
+                       <label style='margin-left: auto; margin-right: auto; margin-top: -100px; border-color: #ff4d4d; border-style: solid; width: 500px; height: 70px; overflow: hidden;'> $comentario </label>
+                       <label style='margin-left: 1000px; margin-top: -76px; font-size: 130%; width: 200px; border-color: #8b8282; border-style: solid;'> Puntuacion del copiloto: $puntuacion </label>    
+                       <hr style='color: #0056b2; margin-top: 70px;'/>";
+                    }
+                  }
+            echo"</div>";
+            echo "
+            <div>
+            <label id='titulo3' style='margin-top:30px'>Votaciones recibidas como copiloto</label>";
+            $consulta="SELECT * FROM votaciones WHERE Email_copiloto = '$email' AND piloto_copiloto = 1";
+            $resultadoConsulta=mysqli_query($conexion,$consulta);
+            echo "<br>";
+            while($registro=mysqli_fetch_array($resultadoConsulta)){
+                    $comentario = $registro['comentario'];
+                    $emailpilo = $registro['Email_piloto'];
+                    $res = mysqli_query($conexion,"SELECT * FROM usuarios WHERE Email = '$emailpilo'");
+                    $reg = $res -> fetch_assoc();
+                    $nombre = $reg['Nombre'];
+                    $apellido = $reg['Apellido'];   
+                    if ($reg['borrado'] == 0 and $reg['Foto'] != null)
+                    {
+                       $img = base64_encode($reg['Foto']);
+                    }
+                    else
+                    {
+                        
+                       $img = base64_encode(file_get_contents('icono_users.png'));
+                    }
+                    $puntuacion = $registro['calificacion'];
+                    if ($comentario != '')
+                    {
+                    echo "
+                       <img style='vertical-align: middle; width: 90px; height: 90px; border-radius: 50%; border-style: double; margin-left: 110px; margin-bottom: 10px;' src='data:image/jpeg;base64,$img'/>
+                       <label style='text-align: center; overflow: hidden; margin-left: 66px; margin-top: 10px; font-size: 100%; width: 170px; height: 50px; border-color: #000000; border-style: double; background-color: #ff4d4d'> $nombre $apellido </label>
+                       <label style='margin-left: auto; margin-right: auto; margin-top: -100px; border-color: #ff4d4d; border-style: solid; width: 500px; height: 70px; overflow: hidden;'> $comentario </label>
+                       <label style='margin-left: 1000px; margin-top: -76px; font-size: 130%; width: 200px; border-color: #8b8282; border-style: solid;'> Puntuacion del piloto: $puntuacion </label>    
+                       <hr style='color: #0056b2; margin-top: 70px;'/>";
+                    }
+                  }
+            echo"</div>";
+        ?>
+        
         <script>
             function confirmar()
             {
