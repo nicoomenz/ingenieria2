@@ -422,7 +422,7 @@
             
             <script type="text/javascript"> 
                 function confirmarSalir(){
-                  var x = confirm("Estas seguro que quieres salir del viaje? Perderá el dinero invertido");
+                  var x = confirm("¿Estas seguro que quieres salir del viaje? Perderá el dinero invertido y sera penalizado por 1 punto en su reputacion como copiloto.");
                   if(x == true)
                     return true;
                   else
