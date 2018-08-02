@@ -58,7 +58,7 @@ if($conexion){
                 $resultado=mysqli_query($conexion , $consulta);
                 if($resultado){
                     $_SESSION['sepago']=True;
-                    header("Location:PagarViaje.php");
+                    header("Location:PagarViaje.php?id_viaje=$idviaje");
                 }
                 else{
                         $SESSION['nosepago']=True;

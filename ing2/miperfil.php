@@ -181,7 +181,7 @@
                             </td>
                             <td>
                                 <?php 
-                                   $consulta3 = "SELECT SUM(calificacion) as total FROM votaciones WHERE Email_piloto = '$email'";
+                                   $consulta3 = "SELECT SUM(calificacion) as total FROM votaciones WHERE Email_piloto = '$email' AND piloto_copiloto= 0";
                                    $resultado = $conexion -> query($consulta3);
                                    $row = $resultado -> fetch_assoc();
                                    if ($row["total"] < 0 || $row["total"] == null)
@@ -202,7 +202,7 @@
                             </td>
                             <td>
                                 <?php 
-                                   $consulta4 = "SELECT SUM(calificacion) as total FROM votaciones WHERE Email_copiloto = '$email'";
+                                   $consulta4 = "SELECT SUM(calificacion) as total FROM votaciones WHERE Email_copiloto = '$email' AND piloto_copiloto= 1";
                                    $resultado2 = $conexion -> query($consulta4);
                                    $row2 = $resultado2 -> fetch_assoc();
                                    if ($row2["total"] < 0 || $row2["total"] == null)
@@ -224,6 +224,7 @@
                             <?php 
                         echo" <form   method='post' action='BorrarUsuario.php' onsubmit='return confirmar();'>
                         <input type='hidden' name='email_usuario' value='".$email."'>
+                        <input type='file' name='icono' value='ingenieria2/icono_users.png'>
                         <button id='boton2' style='margin-top: 430px; margin-left: 16px; width: 300px;'type='submit' value='submit' class='btn btn-primary'> Dar de baja mi cuenta
                         </button>
                         </form>";

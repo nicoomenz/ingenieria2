@@ -198,3 +198,15 @@ label{
 
 }
 
+#titulo3
+{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #ff4d4d;
+    height: 50px;
+    left: 50%;
+    text-align: center;
+    font-size: 170%;
+    width: 1348px;
+    display:inline-block;
+}

@@ -142,17 +142,29 @@ else{
                    $resultquery2=mysqli_query($conexion,$query2);
                    $registro2=mysqli_fetch_row($resultquery2);
                    $horaLlegadaBD=$registro2['0'];
-                   if(($hora>$horaBD) and ($hora<$horaLlegadaBD)){
-                       $_SESSION['viajeImpo'] =true; 
+                   if(($hora>$horaBD) and ($horaLlegada<$horaLlegadaBD)){ //la hora beetwen
+                       $_SESSION['viajeImpo1'] =true; 
                         header("Location:publicarViaje.php");
                    }
+                   else{
+                       if(($hora<$horaBD) and ($horaLlegada<$horaLlegadaBD)){ //la hora de salida esta bien pero la de llegada esta mal
+                            $_SESSION['viajeImpo2'] =true; 
+                            header("Location:publicarViaje.php");
+                        }
+                        else{
+                            if(($hora>$horaBD) and ($horaLlegada>$horaLlegadaBD)){ //la hora de salida esta mal
+                                $_SESSION['viajeImpo3'] =true; 
+                                header("Location:publicarViaje.php");
+                            }
+                             
+                   
                    else{
                       $resultado12 = mysqli_query($conexion ,"INSERT INTO viajes ( auto_id,hora,horaLlegada, precio,destino,origen,fecha,borrado) VALUES ( '$id_auto','$hora','$horaLlegada','$precio','$destino','$origen','$fecha','0')") ;
                      if($resultado12){
                        $_SESSION['regViaOk'] =true;
                        header("Location:publicarViaje.php"); 
                      }
-                   }
+               }}}
                  }
                   else{
                     if($fecha == $f2){   
