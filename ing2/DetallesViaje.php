@@ -76,11 +76,15 @@
                     $consulta="SELECT Foto FROM usuarios WHERE Email = '$EmailAuto'";
                     if($resul=mysqli_query($conexion,$consulta)){
                       $row=mysqli_fetch_array($resul);
+                      $consulta5="SELECT * FROM usuarios WHERE Email = '$EmailAuto'";
+                      if($resul5=mysqli_query($conexion,$consulta5)){
+                          $re=mysqli_fetch_array($resul5);
+                      }
                     }
                     else
                         echo "no encuetra";
                     
-                    if($row['Foto'] == null)
+                    if($row['Foto'] == null || $re['borrado'] == 1)
                         echo '<img src="icono_users.png" class="avatarPerfil" />';
                     else
                         echo '<img class="avatarPerfil" src="data:image/jpeg;base64,'.base64_encode($row['Foto']).'" />';       
@@ -361,9 +365,17 @@
                     $pregunta = $registro['Descripcion'];
                     $nombre = $reg['Nombre'];
                     $apellido = $reg['Apellido'];   
-                    $img = base64_encode($reg['Foto']);
+                    if ($reg['borrado'] == 0)
+                    {
+                       $img = base64_encode($reg['Foto']);
+                    }
+                    else
+                    {
+                        
+                       $img = base64_encode(file_get_contents('icono_users.png'));
+                    }
                     echo "
-                       <img style='vertical-align: middle; width: 90px; height: 90px; border-radius: 50%; border-style: double; margin-left: 110px;' src='data:image/jpeg;base64, $img'/>
+                       <img style='vertical-align: middle; width: 90px; height: 90px; border-radius: 50%; border-style: double; margin-left: 110px;' src='data:image/jpeg;base64,$img'/>
                        <label style='text-align: center; overflow: hidden; margin-left: 66px; margin-top: 10px; font-size: 100%; width: 170px; height: 60px; border-color: #000000; border-style: double; background-color: #ff4d4d'> $nombre $apellido </label>
                        <label style='margin-left: auto; margin-right: auto; margin-top: -180px; border-color: #ff4d4d; border-style: solid; width: 500px; height: 70px; overflow: hidden;'> $pregunta </label>";
                        if (!($registro['Respuesta'] == ' ' or $registro['Respuesta'] == null or $registro['Respuesta'] == ''))
@@ -393,9 +405,17 @@
                     $pregunta = $registro['Descripcion'];
                     $nombre = $reg['Nombre'];
                     $apellido = $reg['Apellido'];   
-                    $img = base64_encode($reg['Foto']);
+                    if ($reg['borrado'] == 0)
+                    {
+                       $img = base64_encode($reg['Foto']);
+                    }
+                    else
+                    {
+                        
+                       $img = base64_encode(file_get_contents('icono_users.png'));
+                    }
                     echo "
-                       <img style='vertical-align: middle; width: 90px; height: 90px; border-radius: 50%; border-style: double; margin-left: 110px;' src='data:image/jpeg;base64, $img'/>
+                       <img style='vertical-align: middle; width: 90px; height: 90px; border-radius: 50%; border-style: double; margin-left: 110px;' src='data:image/jpeg;base64,$img'/>
                        <label style='text-align: center; overflow: hidden; margin-left: 66px; margin-top: 10px; font-size: 100%; width: 170px; height: 60px; border-color: #000000; border-style: double; background-color: #ff4d4d'> $nombre $apellido </label>
                        <label style='margin-left: auto; margin-right: auto; margin-top: -180px; border-color: #ff4d4d; border-style: solid; width: 500px; height: 70px; overflow: hidden;'> $pregunta </label>";
                        if (!($registro['Respuesta'] == ' ' or $registro['Respuesta'] == null or $registro['Respuesta'] == ''))
@@ -417,7 +437,7 @@
                                  </form>"; 
                        }
                   } 
-        } echo"</div>"
+        } echo"</div>";
         ?>
             
             <script type="text/javascript"> 

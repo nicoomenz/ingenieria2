@@ -35,6 +35,13 @@ class funciones extends Exception{
             $_SESSION['iniciose'] =false;
             throw new Exception(header("Location:index.php"));
             }
+          else
+          {
+             if($reg['borrado'] == 1){
+                $_SESSION['iniciose'] =false;
+                throw new Exception(header("Location:index.php"));
+                } 
+          }
 
           $_SESSION['email']=$reg['Email'];
           $_SESSION['estado'] = "logeado";

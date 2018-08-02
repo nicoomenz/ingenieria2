@@ -224,6 +224,7 @@
                             <?php 
                         echo" <form   method='post' action='BorrarUsuario.php' onsubmit='return confirmar();'>
                         <input type='hidden' name='email_usuario' value='".$email."'>
+                        <input type='file' name='icono' value='ingenieria2/icono_users.png'>
                         <button id='boton2' style='margin-top: 430px; margin-left: 16px; width: 300px;'type='submit' value='submit' class='btn btn-primary'> Dar de baja mi cuenta
                         </button>
                         </form>";

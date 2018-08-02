@@ -151,7 +151,7 @@
               echo "<script>
                alert('$message') 
                </script>";
-              unset($_SESSION['fecahOk']);
+              unset($_SESSION['fechaOk']);
            }
            if(isset($_SESSION['horaOk'])){
               $message="Ingrese una hora";
@@ -174,12 +174,26 @@
                </script>";
               unset($_SESSION['noEntro']);
            }
-            if(isset($_SESSION['viajeImpo'])){
-              $message="El viaje no puede realizarse en la misma fecha y hora que otro";
+            if(isset($_SESSION['viajeImpo1'])){
+              $message="La hora de salida y la hora de llegada estan en la misma hora que otro viaje";
               echo "<script>
                alert('$message') 
                </script>";
-              unset($_SESSION['viajeImpo']);
+              unset($_SESSION['viajeImpo1']);
+           }
+           if(isset($_SESSION['viajeImpo2'])){
+              $message="La hora de salida es correcta, pero la de llegada intercepta con otro viaje";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['viajeImpo2']);
+           }
+           if(isset($_SESSION['viajeImpo3'])){
+              $message="La hora de salida intercepta con otro viaje";
+              echo "<script>
+               alert('$message') 
+               </script>";
+              unset($_SESSION['viajeImpo3']);
            }
             if(isset($_SESSION['viajeImpoSemanal'])){
               $message="El viaje no puede realizarse, porque ya tenes viajes creados dentro de las proximas semanas a este horario";

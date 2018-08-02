@@ -114,6 +114,7 @@
                                         <button type='submit' value='submit' class='btn btn-primary'> Detalles </button>
                                     </form>
                                 </td>";
+                                
                                 if($aceptados=='0'){ 
                                     echo"
                                     <td>

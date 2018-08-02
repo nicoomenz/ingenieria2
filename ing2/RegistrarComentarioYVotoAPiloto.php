@@ -4,20 +4,18 @@ session_start();
 include ("conexion.php");
 
 
-  $mensaje;
   if($conexion)
    {
         if (isset($_POST['cajatexto']) and (isset($_POST['puntaje']))) 
         {
-            $comentario = $_POST['cajatexto'];
+            echo $comentario = $_POST['cajatexto'];
             if (!$comentario == "")
             {
-                $puntaje = $_POST['puntaje'];
-                if ($puntaje != -2)
-                {  
+                echo $puntaje = $_POST['puntaje'];
+                if ($puntaje != -2){  
                    
-                   $emailCo = $_SESSION['email'];
-                   $idviaje = $_POST['id'];
+                   echo $emailCo = $_SESSION['email'];
+                   echo $idviaje = $_POST['id'];
                    $consulta = "SELECT auto_id FROM viajes WHERE id_viaje = '$idviaje' AND borrado='0'";
                    if($resultadoConsulta=mysqli_query($conexion,$consulta)){
                         $registro=mysqli_fetch_array($resultadoConsulta);
@@ -27,9 +25,9 @@ include ("conexion.php");
                         $registro2=mysqli_fetch_array($resultadoConsulta2);
                         $EmailAuto=$registro2['Email_id'];
                    }
-                   $emailPi = $EmailAuto;
-                   $patente = $registro2['Patente'];
-                   $resultado = $conexion -> query("INSERT INTO votaciones(Email_piloto,Email_copiloto,patente,calificacion,comentario,id_viaje) VALUES ('$emailPi', '$emailCo' , '$patente', '$puntaje', '$comentario', '$idviaje')");
+                   echo $emailPi = $EmailAuto;
+                   echo $patente = $registro2['Patente'];
+                   $resultado = mysqli_query($conexion, "INSERT INTO votaciones(Email_piloto,Email_copiloto,patente,calificacion,comentario,id_viaje) VALUES ('$emailPi', '$emailCo' , '$patente', '$puntaje', '$comentario', '$idviaje')");
                    if ($resultado)
                    {
                        $_SESSION['votexitosa'] = false;
